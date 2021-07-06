@@ -24,5 +24,28 @@ namespace EJournalDAL.Services
             
             return _mapper.Map<List<Course>>(courses);
         }
+
+        public async Task<IEnumerable<Course>> GetById(int id)
+        {
+            IEnumerable<GetCourseResult> courses = new List<GetCourseResult>(_dbConnection.GetCourse(id));
+            return _mapper.Map<List<Course>>(courses);
+        }
+
+        public async Task<int?> Add(string name)
+        {
+            return _dbConnection.AddCourse(name);
+        }
+
+        public async Task<bool> Update(Course course)
+        {
+            int result = _dbConnection.UpdateCourse(course.Id, course.Name);
+            return result > 0 ? true : false;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            int result = _dbConnection.DeleteCourse(id);
+            return result > 0 ? true : false;
+        }
     }
 }
