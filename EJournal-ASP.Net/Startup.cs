@@ -1,23 +1,25 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LinqToDB.AspNet;
+using LinqToDB.Configuration;
+using System.Reflection;
+using EJournalDAL.Services;
+using DataModels;
+using EJournalDAL.MapperProfiles;
 
 namespace EJournal_ASP.Net
 {
     public class Startup
     {
+        private IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -25,12 +27,26 @@ namespace EJournal_ASP.Net
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddScoped<ICourseService, CourseService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EJournal_ASP.Net", Version = "v1" });
             });
+
+            var assemblies = new[]
+            {
+                Assembly.GetAssembly(typeof(CourseMappingProfile)), //api
+            };
+
+            services.AddLinqToDbContext<EJournalDB>((provider, options) =>
+            {
+                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+                //.UseDefaultLogging(provider);
+            });
+
+            services.AddAutoMapper(assemblies);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
