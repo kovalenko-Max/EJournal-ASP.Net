@@ -21,7 +21,6 @@ namespace EJournalDAL.Services
         public async Task<IEnumerable<Course>> GetAll()
         {
             IEnumerable<GetAllCoursesResult> courses = new List<GetAllCoursesResult>(_dbConnection.GetAllCourses());
-            
             return _mapper.Map<IEnumerable<Course>>(courses);
         }
 
