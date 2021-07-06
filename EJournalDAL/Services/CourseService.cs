@@ -22,7 +22,7 @@ namespace EJournalDAL.Services
         {
             IEnumerable<GetAllCoursesResult> courses = new List<GetAllCoursesResult>(_dbConnection.GetAllCourses());
             
-            return _mapper.Map<List<Course>>(courses);
+            return _mapper.Map<IEnumerable<Course>>(courses);
         }
     }
 }
