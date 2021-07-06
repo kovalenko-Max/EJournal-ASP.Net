@@ -46,6 +46,7 @@ namespace EJournal_ASP.Net
             services.AddScoped<IExerciseService, ExerciseService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<ILessonService, LessonService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             services.AddSwaggerGen(c =>
             {
