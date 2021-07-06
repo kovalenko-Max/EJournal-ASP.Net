@@ -10,6 +10,11 @@ using System.Reflection;
 using EJournalDAL.Services;
 using DataModels;
 using EJournalDAL.MapperProfiles;
+using NLog;
+using NLog.Config;
+using Microsoft.Extensions.Logging;
+using EJournal_ASP.Net.Controllers;
+using NLog.Extensions.Logging;
 
 namespace EJournal_ASP.Net
 {
@@ -27,6 +32,13 @@ namespace EJournal_ASP.Net
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var assemblies = new[]
+            {
+                Assembly.GetAssembly(typeof(CourseMappingProfile)),
+            };
+
+            services.AddAutoMapper(assemblies);
+
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
 
@@ -35,18 +47,19 @@ namespace EJournal_ASP.Net
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EJournal_ASP.Net", Version = "v1" });
             });
 
-            var assemblies = new[]
-            {
-                Assembly.GetAssembly(typeof(CourseMappingProfile)), //api
-            };
-
             services.AddLinqToDbContext<EJournalDB>((provider, options) =>
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
-                //.UseDefaultLogging(provider);
             });
 
-            services.AddAutoMapper(assemblies);
+            services.AddTransient<CourseController>();
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.ClearProviders();
+                loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                loggingBuilder.AddNLog(_configuration);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
