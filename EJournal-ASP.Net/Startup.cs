@@ -41,6 +41,7 @@ namespace EJournal_ASP.Net
 
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             services.AddSwaggerGen(c =>
             {
