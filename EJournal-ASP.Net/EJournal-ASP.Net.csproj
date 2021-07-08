@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="linq2db.AspNet" Version="3.4.1" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="NLog.Config" Version="4.7.10" />
