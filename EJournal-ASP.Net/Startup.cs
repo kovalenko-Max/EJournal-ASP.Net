@@ -15,6 +15,7 @@ using NLog.Config;
 using Microsoft.Extensions.Logging;
 using EJournal_ASP.Net.Controllers;
 using NLog.Extensions.Logging;
+using System.Configuration;
 
 namespace EJournal_ASP.Net
 {
