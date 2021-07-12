@@ -34,7 +34,8 @@ namespace EJournal_ASP.Net
         {
             var assemblies = new[]
             {
-                Assembly.GetAssembly(typeof(CourseMappingProfile)),
+                Assembly.GetAssembly(typeof(CourseMappingProfile)), //api
+                Assembly.GetAssembly(typeof(ExerciseMappingProfile)) //api
             };
 
             services.AddAutoMapper(assemblies);
@@ -42,6 +43,7 @@ namespace EJournal_ASP.Net
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IExerciseService, ExerciseService>();
 
             services.AddSwaggerGen(c =>
             {

@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataModels.EJournalDBDBStoredProcedures;
 
 namespace EJournalDAL.Services
 {
@@ -22,7 +23,9 @@ namespace EJournalDAL.Services
         }
         public async Task<IEnumerable<Exercise>> GetExcercisesByGroupId(int groupId)
         {
-            return _dbConnection.GetExercisesByGroup(groupId);
+            IEnumerable<GetExercisesByGroupResult> exercise = new List<GetExercisesByGroupResult>(_dbConnection.GetExercisesByGroup(groupId));
+
+            return _mapper.Map<List<Exercise>>(exercise);
         }
 
         public async Task<int?> AddExcerciseToGroup(Exercise exercise, DataTable dt)

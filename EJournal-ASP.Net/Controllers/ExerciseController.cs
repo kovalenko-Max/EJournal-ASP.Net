@@ -34,13 +34,13 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Course>> GetAsync(int groupId)
+        public async Task<IEnumerable<Exercise>> GetAsync(int groupId)
         {
             return await _exerciseService.GetExcercisesByGroupId(groupId);
         }
 
         [HttpPost]
-        public async Task<int?> Add(Exercise exercise, DataTable dt)
+        public async Task<int?> Add([FromQuery]Exercise exercise, [FromBody]DataTable dt)
         {
             return await _exerciseService.AddExcerciseToGroup(exercise, dt);
         }
