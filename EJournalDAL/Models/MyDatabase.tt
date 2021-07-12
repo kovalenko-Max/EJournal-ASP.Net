@@ -56,7 +56,7 @@
 
 	//LoadSqlServerMetadata("MyServer", "MyDatabase", "User", "Password");
 //	LoadSqlServerMetadata(".", "MyDatabase"); // Integrated Security
-	LoadSqlServerMetadata(@"MAKS-DESKTOP\SQLEXPRESS", "EJournalDB"); // Integrated Security
+	LoadSqlServerMetadata(@"LAPTOP-E2SFBO2T", "EJournalDB"); // Integrated Security
 //	LoadSqlServerMetadata(string connectionString);
 
 	// to adjust loaded database model before generation, add your code here, after load metadata, but before GenerateModel() call

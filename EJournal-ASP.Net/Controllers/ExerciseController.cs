@@ -46,9 +46,9 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpPut]
-        public async Task<bool> Update(Exercise exercise)
+        public async Task<bool> UpdateStudentsExcerciseAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
         {
-            return await _exerciseService.UpdateStudentsExcercise(exercise);
+            return await _exerciseService.UpdateStudentsExcercise(exercise, dt);
         }
 
         [HttpDelete]

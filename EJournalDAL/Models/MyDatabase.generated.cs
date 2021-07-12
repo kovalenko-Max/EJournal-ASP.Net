@@ -22,8 +22,8 @@ namespace DataModels
 {
 	/// <summary>
 	/// Database       : EJournalDB
-	/// Data Source    : MAKS-DESKTOP\SQLEXPRESS
-	/// Server Version : 15.00.2000
+	/// Data Source    : LAPTOP-E2SFBO2T
+	/// Server Version : 15.00.2080
 	/// </summary>
 	public partial class EJournalDB : LinqToDB.Data.DataConnection
 	{
@@ -94,7 +94,7 @@ namespace DataModels
 	public partial class EJournal_Comment
 	{
 		[Column(),          PrimaryKey, Identity] public int    Id            { get; set; } // int
-		[Column("Comment"), NotNull             ] public string Comment { get; set; } // nvarchar(255)
+		[Column("Comment"), NotNull             ] public string CommentColumn { get; set; } // nvarchar(255)
 		[Column(),          NotNull             ] public string CommentType   { get; set; } // nvarchar(100)
 	}
 
@@ -241,18 +241,6 @@ namespace DataModels
 		{
 			return dataConnection.ExecuteProc("[EJournal].[AddCourse]",
 				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
-		}
-
-		#endregion
-
-		#region AddExercises
-
-		public static int AddExercises(this EJournalDB dataConnection, string @Description, DateTime? @Deadline, int? @IdGroup)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[AddExercises]",
-				new DataParameter("@Description", @Description, LinqToDB.DataType.NVarChar),
-				new DataParameter("@Deadline",    @Deadline,    LinqToDB.DataType.DateTime),
-				new DataParameter("@IdGroup",     @IdGroup,     LinqToDB.DataType.Int32));
 		}
 
 		#endregion
@@ -406,6 +394,19 @@ namespace DataModels
 
 		#endregion
 
+		#region AddStudentsInGroup
+
+		public static int AddStudentsInGroup(this EJournalDB dataConnection, int? @IdGroup, string @NameGroup, int? @IdCourse, DataTable @IdsStudent)
+		{
+			return dataConnection.ExecuteProc("[EJournal].[AddStudentsInGroup]",
+				new DataParameter("@IdGroup",    @IdGroup,    LinqToDB.DataType.Int32),
+				new DataParameter("@NameGroup",  @NameGroup,  LinqToDB.DataType.NVarChar),
+				new DataParameter("@IdCourse",   @IdCourse,   LinqToDB.DataType.Int32),
+				new DataParameter("@IdsStudent", @IdsStudent, LinqToDB.DataType.Structured){ DbType = "[EJournal].[GroupIdsStudentsIds]" });
+		}
+
+		#endregion
+
 		#region AddStudentToProjectGroup
 
 		public static int AddStudentToProjectGroup(this EJournalDB dataConnection, int? @IdStudent, int? @IdProjectGroup)
@@ -413,40 +414,6 @@ namespace DataModels
 			return dataConnection.ExecuteProc("[EJournal].[AddStudentToProjectGroup]",
 				new DataParameter("@IdStudent",      @IdStudent,      LinqToDB.DataType.Int32),
 				new DataParameter("@IdProjectGroup", @IdProjectGroup, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
-		#region CountGroupsByCourse
-
-		public static IEnumerable<CountGroupsByCourseResult> CountGroupsByCourse(this EJournalDB dataConnection, int? @Id)
-		{
-			var ms = dataConnection.MappingSchema;
-
-			return dataConnection.QueryProc(dataReader =>
-				new CountGroupsByCourseResult
-				{
-					Column1 = Converter.ChangeTypeTo<int?>(dataReader.GetValue(0), ms),
-				},
-				"[EJournal].[CountGroupsByCourse]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		public partial class CountGroupsByCourseResult
-		{
-			[Column("")] public int? Column1 { get; set; }
-		}
-
-		#endregion
-
-		#region CreateStudentComments
-
-		public static int CreateStudentComments(this EJournalDB dataConnection, string @CommentType, string @Comment, DataTable @StudentCommentVarible)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[CreateStudentComments]",
-				new DataParameter("@CommentType",           @CommentType,           LinqToDB.DataType.NVarChar),
-				new DataParameter("@Comment",               @Comment,               LinqToDB.DataType.NVarChar),
-				new DataParameter("@StudentCommentVarible", @StudentCommentVarible, LinqToDB.DataType.Structured){ DbType = "[EJournal].[StudentsComment]" });
 		}
 
 		#endregion
@@ -461,31 +428,11 @@ namespace DataModels
 
 		#endregion
 
-		#region DeleteComments
-
-		public static int DeleteComments(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[DeleteComments]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
 		#region DeleteCourse
 
 		public static int DeleteCourse(this EJournalDB dataConnection, int? @Id)
 		{
 			return dataConnection.ExecuteProc("[EJournal].[DeleteCourse]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
-		#region DeleteExercises
-
-		public static int DeleteExercises(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[DeleteExercises]",
 				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
 		}
 
@@ -507,16 +454,6 @@ namespace DataModels
 		{
 			return dataConnection.ExecuteProc("[EJournal].[DeleteGroupAndGroupStudent]",
 				new DataParameter("@IdGroup", @IdGroup, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
-		#region DeleteLessonAndAttendances
-
-		public static int DeleteLessonAndAttendances(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[DeleteLessonAndAttendances]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
 		}
 
 		#endregion
@@ -571,11 +508,15 @@ namespace DataModels
 
 		#endregion
 
-		#region GetAllComments
+		#region DeleteStudentsFromGroup
 
-		public static IEnumerable<EJournal_Comment> GetAllComments(this EJournalDB dataConnection)
+		public static int DeleteStudentsFromGroup(this EJournalDB dataConnection, int? @IdGroup, string @NameGroup, int? @IdCourse, DataTable @IdsStudent)
 		{
-			return dataConnection.QueryProc<EJournal_Comment>("[EJournal].[GetAllComments]");
+			return dataConnection.ExecuteProc("[EJournal].[DeleteStudentsFromGroup]",
+				new DataParameter("@IdGroup",    @IdGroup,    LinqToDB.DataType.Int32),
+				new DataParameter("@NameGroup",  @NameGroup,  LinqToDB.DataType.NVarChar),
+				new DataParameter("@IdCourse",   @IdCourse,   LinqToDB.DataType.Int32),
+				new DataParameter("@IdsStudent", @IdsStudent, LinqToDB.DataType.Structured){ DbType = "[EJournal].[GroupIdsStudentsIds]" });
 		}
 
 		#endregion
@@ -591,23 +532,6 @@ namespace DataModels
 		{
 			public int    Id   { get; set; }
 			public string Name { get; set; }
-		}
-
-		#endregion
-
-		#region GetAllExercises
-
-		public static IEnumerable<GetAllExercisesResult> GetAllExercises(this EJournalDB dataConnection)
-		{
-			return dataConnection.QueryProc<GetAllExercisesResult>("[EJournal].[GetAllExercises]");
-		}
-
-		public partial class GetAllExercisesResult
-		{
-			public int       Id          { get; set; }
-			public string    Description { get; set; }
-			public DateTime? Deadline    { get; set; }
-			public int       IdGroup     { get; set; }
 		}
 
 		#endregion
@@ -728,16 +652,6 @@ namespace DataModels
 
 		#endregion
 
-		#region GetComment
-
-		public static IEnumerable<EJournal_Comment> GetComment(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.QueryProc<EJournal_Comment>("[EJournal].[GetComment]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
 		#region GetCommentsByStudent
 
 		public static IEnumerable<EJournal_Comment> GetCommentsByStudent(this EJournalDB dataConnection, int? @IdStudent)
@@ -782,42 +696,6 @@ namespace DataModels
 		{
 			public int    Id   { get; set; }
 			public string Name { get; set; }
-		}
-
-		#endregion
-
-		#region GetExercise
-
-		public static IEnumerable<GetExerciseResult> GetExercise(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.QueryProc<GetExerciseResult>("[EJournal].[GetExercise]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetExerciseResult
-		{
-			public int       Id          { get; set; }
-			public string    Description { get; set; }
-			public DateTime? Deadline    { get; set; }
-			public int       IdGroup     { get; set; }
-		}
-
-		#endregion
-
-		#region GetExercises
-
-		public static IEnumerable<GetExercisesResult> GetExercises(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.QueryProc<GetExercisesResult>("[EJournal].[GetExercises]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetExercisesResult
-		{
-			public int       Id          { get; set; }
-			public string    Description { get; set; }
-			public DateTime? Deadline    { get; set; }
-			public int       IdGroup     { get; set; }
 		}
 
 		#endregion
@@ -952,81 +830,12 @@ namespace DataModels
 
 		#endregion
 
-		#region GetLessonsAttendancesByGroup
-
-		public static IEnumerable<GetLessonsAttendancesByGroupResult> GetLessonsAttendancesByGroup(this EJournalDB dataConnection, int? @GroupId)
-		{
-			return dataConnection.QueryProc<GetLessonsAttendancesByGroupResult>("[EJournal].[GetLessonsAttendancesByGroup]",
-				new DataParameter("@GroupId", @GroupId, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetLessonsAttendancesByGroupResult
-		{
-			public int      Id         { get; set; }
-			public DateTime DateLesson { get; set; }
-			public string   Topic      { get; set; }
-			public int?     IdStudent  { get; set; }
-			public string   Name       { get; set; }
-			public string   Surname    { get; set; }
-			public bool?    IsPresence { get; set; }
-		}
-
-		#endregion
-
 		#region GetLessonsByGroup
 
 		public static IEnumerable<EJournal_Lesson> GetLessonsByGroup(this EJournalDB dataConnection, int? @groupId)
 		{
 			return dataConnection.QueryProc<EJournal_Lesson>("[EJournal].[GetLessonsByGroup]",
 				new DataParameter("@groupId", @groupId, LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
-		#region GetListStudentsInOneProjectGroup
-
-		public static IEnumerable<GetListStudentsInOneProjectGroupResult> GetListStudentsInOneProjectGroup(this EJournalDB dataConnection, int? @IdProjectGroup)
-		{
-			return dataConnection.QueryProc<GetListStudentsInOneProjectGroupResult>("[EJournal].[GetListStudentsInOneProjectGroup]",
-				new DataParameter("@IdProjectGroup", @IdProjectGroup, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetListStudentsInOneProjectGroupResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Phone           { get; set; }
-			public string Email           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-			public bool   IsDelete        { get; set; }
-		}
-
-		#endregion
-
-		#region GetListStudentsNotInTheConcreeteProjectGroup
-
-		public static IEnumerable<GetListStudentsNotInTheConcreeteProjectGroupResult> GetListStudentsNotInTheConcreeteProjectGroup(this EJournalDB dataConnection, int? @IdProjectGroup)
-		{
-			return dataConnection.QueryProc<GetListStudentsNotInTheConcreeteProjectGroupResult>("[EJournal].[GetListStudentsNotInTheConcreeteProjectGroup]",
-				new DataParameter("@IdProjectGroup", @IdProjectGroup, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetListStudentsNotInTheConcreeteProjectGroupResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Phone           { get; set; }
-			public string Email           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-			public bool   IsDelete        { get; set; }
 		}
 
 		#endregion
@@ -1064,22 +873,6 @@ namespace DataModels
 
 		#endregion
 
-		#region GetProjects
-
-		public static IEnumerable<GetProjectsResult> GetProjects(this EJournalDB dataConnection)
-		{
-			return dataConnection.QueryProc<GetProjectsResult>("[EJournal].[GetProjects]");
-		}
-
-		public partial class GetProjectsResult
-		{
-			public int    Id          { get; set; }
-			public string Name        { get; set; }
-			public string Description { get; set; }
-		}
-
-		#endregion
-
 		#region GetStudent
 
 		public static IEnumerable<GetStudentResult> GetStudent(this EJournalDB dataConnection, int? @Id)
@@ -1089,30 +882,6 @@ namespace DataModels
 		}
 
 		public partial class GetStudentResult
-		{
-			public int    Id                { get; set; }
-			public string Name              { get; set; }
-			public string Surname           { get; set; }
-			public string Email             { get; set; }
-			public string Phone             { get; set; }
-			public string Git               { get; set; }
-			public string City              { get; set; }
-			public int    TeacherAssessment { get; set; }
-			public double Ranking           { get; set; }
-			public string AgreementNumber   { get; set; }
-		}
-
-		#endregion
-
-		#region GetStudentByGroup
-
-		public static IEnumerable<GetStudentByGroupResult> GetStudentByGroup(this EJournalDB dataConnection, int? @Id)
-		{
-			return dataConnection.QueryProc<GetStudentByGroupResult>("[EJournal].[GetStudentByGroup]",
-				new DataParameter("@Id", @Id, LinqToDB.DataType.Int32));
-		}
-
-		public partial class GetStudentByGroupResult
 		{
 			public int    Id                { get; set; }
 			public string Name              { get; set; }
@@ -1384,122 +1153,6 @@ namespace DataModels
 
 		#endregion
 
-		#region SearchStudentAgreementNumber
-
-		public static IEnumerable<SearchStudentAgreementNumberResult> SearchStudentAgreementNumber(this EJournalDB dataConnection, string @AgreementNumber)
-		{
-			return dataConnection.QueryProc<SearchStudentAgreementNumberResult>("[EJournal].[SearchStudentAgreementNumber]",
-				new DataParameter("@AgreementNumber", @AgreementNumber, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStudentAgreementNumberResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentAll
-
-		public static IEnumerable<SearchStudentAllResult> SearchStudentAll(this EJournalDB dataConnection)
-		{
-			return dataConnection.QueryProc<SearchStudentAllResult>("[EJournal].[SearchStudentAll]");
-		}
-
-		public partial class SearchStudentAllResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentCity
-
-		public static IEnumerable<SearchStudentCityResult> SearchStudentCity(this EJournalDB dataConnection, string @City)
-		{
-			return dataConnection.QueryProc<SearchStudentCityResult>("[EJournal].[SearchStudentCity]",
-				new DataParameter("@City", @City, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStudentCityResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentCours
-
-		public static IEnumerable<SearchStudentCoursResult> SearchStudentCours(this EJournalDB dataConnection, string @Name)
-		{
-			return dataConnection.QueryProc<SearchStudentCoursResult>("[EJournal].[SearchStudentCours]",
-				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStudentCoursResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentProjectGroup
-
-		public static IEnumerable<SearchStudentProjectGroupResult> SearchStudentProjectGroup(this EJournalDB dataConnection, int? @param1, int? @param2)
-		{
-			var ms = dataConnection.MappingSchema;
-
-			return dataConnection.QueryProc(dataReader =>
-				new SearchStudentProjectGroupResult
-				{
-					Column1 = Converter.ChangeTypeTo<int?>(dataReader.GetValue(0), ms),
-					Column2 = Converter.ChangeTypeTo<int?>(dataReader.GetValue(1), ms),
-				},
-				"[dbo].[SearchStudentProjectGroup]",
-				new DataParameter("@param1", @param1, LinqToDB.DataType.Int32),
-				new DataParameter("@param2", @param2, LinqToDB.DataType.Int32));
-		}
-
-		public partial class SearchStudentProjectGroupResult
-		{
-			[Column("")] public int? Column1 { get; set; }
-			[Column("")] public int? Column2 { get; set; }
-		}
-
-		#endregion
-
 		#region SearchStudentsByFullName
 
 		public static IEnumerable<SearchStudentsByFullNameResult> SearchStudentsByFullName(this EJournalDB dataConnection, string @Name)
@@ -1509,121 +1162,6 @@ namespace DataModels
 		}
 
 		public partial class SearchStudentsByFullNameResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentsEmail
-
-		public static IEnumerable<SearchStudentsEmailResult> SearchStudentsEmail(this EJournalDB dataConnection, string @Email)
-		{
-			return dataConnection.QueryProc<SearchStudentsEmailResult>("[EJournal].[SearchStudentsEmail]",
-				new DataParameter("@Email", @Email, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStudentsEmailResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStudentsPhone
-
-		public static IEnumerable<SearchStudentsPhoneResult> SearchStudentsPhone(this EJournalDB dataConnection, string @Phone)
-		{
-			return dataConnection.QueryProc<SearchStudentsPhoneResult>("[EJournal].[SearchStudentsPhone]",
-				new DataParameter("@Phone", @Phone, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStudentsPhoneResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStydentsNameSername
-
-		public static IEnumerable<SearchStydentsNameSernameResult> SearchStydentsNameSername(this EJournalDB dataConnection, string @Name)
-		{
-			return dataConnection.QueryProc<SearchStydentsNameSernameResult>("[EJournal].[SearchStydentsNameSername]",
-				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStydentsNameSernameResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearchStydentsSername
-
-		public static IEnumerable<SearchStydentsSernameResult> SearchStydentsSername(this EJournalDB dataConnection, string @Surname)
-		{
-			return dataConnection.QueryProc<SearchStydentsSernameResult>("[EJournal].[SearchStydentsSername]",
-				new DataParameter("@Surname", @Surname, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearchStydentsSernameResult
-		{
-			public int    Id              { get; set; }
-			public string Name            { get; set; }
-			public string Surname         { get; set; }
-			public string Email           { get; set; }
-			public string Phone           { get; set; }
-			public string Git             { get; set; }
-			public string City            { get; set; }
-			public double Ranking         { get; set; }
-			public string AgreementNumber { get; set; }
-		}
-
-		#endregion
-
-		#region SearcStudentsGroup
-
-		public static IEnumerable<SearcStudentsGroupResult> SearcStudentsGroup(this EJournalDB dataConnection, string @Name)
-		{
-			return dataConnection.QueryProc<SearcStudentsGroupResult>("[EJournal].[SearcStudentsGroup]",
-				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
-		}
-
-		public partial class SearcStudentsGroupResult
 		{
 			public int    Id              { get; set; }
 			public string Name            { get; set; }
@@ -1657,19 +1195,6 @@ namespace DataModels
 			return dataConnection.ExecuteProc("[EJournal].[UpdateCourse]",
 				new DataParameter("@Id",   @Id,   LinqToDB.DataType.Int32),
 				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
-		}
-
-		#endregion
-
-		#region UpdateExercise
-
-		public static int UpdateExercise(this EJournalDB dataConnection, int? @Id, string @Description, DateTime? @Deadline, int? @IdGroup)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[UpdateExercise]",
-				new DataParameter("@Id",          @Id,          LinqToDB.DataType.Int32),
-				new DataParameter("@Description", @Description, LinqToDB.DataType.NVarChar),
-				new DataParameter("@Deadline",    @Deadline,    LinqToDB.DataType.DateTime),
-				new DataParameter("@IdGroup",     @IdGroup,     LinqToDB.DataType.Int32));
 		}
 
 		#endregion
@@ -1708,19 +1233,6 @@ namespace DataModels
 				new DataParameter("@Topic",      @Topic,      LinqToDB.DataType.NVarChar),
 				new DataParameter("@DateLesson", @DateLesson, LinqToDB.DataType.DateTime),
 				new DataParameter("@IdGroup",    @IdGroup,    LinqToDB.DataType.Int32));
-		}
-
-		#endregion
-
-		#region UpdateLessonAttendances
-
-		public static int UpdateLessonAttendances(this EJournalDB dataConnection, DataTable @StudentAttendance, int? @Id, string @Topic, DateTime? @DateLesson)
-		{
-			return dataConnection.ExecuteProc("[EJournal].[UpdateLessonAttendances]",
-				new DataParameter("@StudentAttendance", @StudentAttendance, LinqToDB.DataType.Structured){ DbType = "[EJournal].[StudentAttendance]" },
-				new DataParameter("@Id",                @Id,                LinqToDB.DataType.Int32),
-				new DataParameter("@Topic",             @Topic,             LinqToDB.DataType.NVarChar),
-				new DataParameter("@DateLesson",        @DateLesson,        LinqToDB.DataType.DateTime));
 		}
 
 		#endregion

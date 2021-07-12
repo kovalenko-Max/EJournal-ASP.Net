@@ -12,7 +12,7 @@ namespace EJournalDAL.Services
     {
         Task<IEnumerable<Exercise>> GetExcercisesByGroupId(int groupId);
         Task<int?> AddExcerciseToGroup(Exercise exercise, DataTable dt);
-        Task<bool> UpdateStudentsExcercise(Exercise exercise);
+        Task<bool> UpdateStudentsExcercise(Exercise exercise, DataTable dt);
         Task<bool> DeleteExcercise(int exerciseId);
     }
 }
