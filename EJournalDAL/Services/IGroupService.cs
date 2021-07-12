@@ -10,9 +10,8 @@ namespace EJournalDAL.Services
         Task<IEnumerable<Group>> GetGroupById(int groupId);
         Task<int?> AddGroup(Group group);
         Task<int> AddGroupWithStudents(Group group);
-        //Task<bool> AddStudentsInGroup(Group group, List<Student> students);
+        Task<bool> UpdateStudentsInGroup(Group group, List<int> idsAddStudents, List<int> idsDeleteStudents);
         Task<bool> UpdateGroup(Group group);
         Task<bool> DeleteGroup(int groupId);
-        //Task<bool> DeleteStudentsFromGroup(Group group, List<Student> students);
     }
 }

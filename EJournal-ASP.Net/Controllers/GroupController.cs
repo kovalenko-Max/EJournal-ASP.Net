@@ -44,11 +44,12 @@ namespace EJournal_ASP.Net.Controllers
             return await _groupService.AddGroupWithStudents(group);
         }
 
-        //[HttpPost("addStudentsInGroup")]
-        //public async Task<bool> AddStudentsInGroupAsync([FromQuery] Group group, [FromBody] List<Student> students)
-        //{
-        //    return await _groupService.AddStudentsInGroup(group, students);
-        //}
+        [HttpPost("updateStudentsInGroup")]
+        public async Task<bool> UpdateStudentsInGroup([FromQuery] Group group, 
+            [FromBody] List<int> idsAddStudents, [FromBody] List<int> idsDeleteStudents)
+        {
+            return await _groupService.UpdateStudentsInGroup( group, idsAddStudents, idsDeleteStudents);
+        }
 
         [HttpPut]
         public async Task<bool> UpdateAsync(Group group)
@@ -61,11 +62,5 @@ namespace EJournal_ASP.Net.Controllers
         {
             return await _groupService.DeleteGroup(groupId);
         }
-
-        //[HttpDelete("deleteStudentsFromGroup")]
-        //public async Task<bool> DeleteStudentsFromGroupAsync([FromQuery] Group group, [FromBody] List<Student> students)
-        //{
-        //    return await _groupService.DeleteStudentsFromGroup(group, students);
-        //}
     }
 }
