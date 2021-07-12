@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EJournalDAL.Models
 {
@@ -18,7 +14,6 @@ namespace EJournalDAL.Models
         public int TeacherAssessment { get; set; }
         public int Ranking { get; set; }
         public string AgreementNumber { get; set; }
-        public bool IsDelete { get; set; }
         public List<Comment> Comments { get; set; }
 
         public Student()
@@ -66,8 +61,7 @@ namespace EJournalDAL.Models
                    Git == student.Git &&
                    City == student.City &&
                    Ranking == student.Ranking &&
-                   AgreementNumber == student.AgreementNumber &&
-                   IsDelete == student.IsDelete;
+                   AgreementNumber == student.AgreementNumber;
 
                 if ((Comments.Count == student.Comments.Count) && Comments.Count != 0)
                 {

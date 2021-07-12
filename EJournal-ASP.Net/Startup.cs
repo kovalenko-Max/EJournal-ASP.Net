@@ -43,10 +43,10 @@ namespace EJournal_ASP.Net
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IExerciseService, ExerciseService>();
+            services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IExerciseService, ExerciseService>();
             services.AddScoped<ILessonService, LessonService>();
-            services.AddScoped<ICommentService, CommentService>();
 
             services.AddSwaggerGen(c =>
             {
