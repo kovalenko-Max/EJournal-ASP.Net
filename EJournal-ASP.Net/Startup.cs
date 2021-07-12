@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using EJournal_ASP.Net.Controllers;
 using NLog.Extensions.Logging;
 
+
 namespace EJournal_ASP.Net
 {
     public class Startup
@@ -50,7 +51,7 @@ namespace EJournal_ASP.Net
 
             services.AddLinqToDbContext<EJournalDB>((provider, options) =>
             {
-                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer("Data Source=localhost:5000;Database=EJournalDB;Trusted_Connection=True;");
             });
 
             services.AddTransient<CourseController>();
