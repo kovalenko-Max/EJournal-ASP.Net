@@ -213,12 +213,17 @@ namespace DataModels
 	{
 		#region AddComment
 
-		public static int AddComment(this EJournalDB dataConnection, int? @IdStudent, string @Comments, string @CommentType)
+		public static IEnumerable<AddCommentResult> AddComment(this EJournalDB dataConnection, int? @IdStudent, string @Comments, string @CommentType)
 		{
-			return dataConnection.ExecuteProc("[EJournal].[AddComment]",
+			return dataConnection.QueryProc<AddCommentResult>("[EJournal].[AddComment]",
 				new DataParameter("@IdStudent",   @IdStudent,   LinqToDB.DataType.Int32),
 				new DataParameter("@Comments",    @Comments,    LinqToDB.DataType.NVarChar),
 				new DataParameter("@CommentType", @CommentType, LinqToDB.DataType.NVarChar));
+		}
+
+		public partial class AddCommentResult
+		{
+			public int Id { get; set; }
 		}
 
 		#endregion
@@ -237,10 +242,15 @@ namespace DataModels
 
 		#region AddCourse
 
-		public static int AddCourse(this EJournalDB dataConnection, string @Name)
+		public static IEnumerable<AddCourseResult> AddCourse(this EJournalDB dataConnection, string @Name)
 		{
-			return dataConnection.ExecuteProc("[EJournal].[AddCourse]",
+			return dataConnection.QueryProc<AddCourseResult>("[EJournal].[AddCourse]",
 				new DataParameter("@Name", @Name, LinqToDB.DataType.NVarChar));
+		}
+
+		public partial class AddCourseResult
+		{
+			public int Id { get; set; }
 		}
 
 		#endregion

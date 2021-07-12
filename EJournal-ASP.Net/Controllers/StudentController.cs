@@ -27,14 +27,14 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
-        [Route("id")]
+        [Route("{id}")]
         public async Task<IEnumerable<Student>> GetStudentByIdAsync(int idStudent)
         {
             return await _studentService.GetStudentById(idStudent);
         }
 
         [HttpGet]
-        [Route("idGroup")]
+        [Route("idGroup/{id}")]
         public async Task<IEnumerable<Student>> GetStudentsByGroupIdAsync(int idGroup)
         {
             return await _studentService.GetStudentById(idGroup);

@@ -12,6 +12,7 @@ using DataModels;
 using EJournalDAL.MapperProfiles;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using System.Configuration;
 
 namespace EJournal_ASP.Net
 {

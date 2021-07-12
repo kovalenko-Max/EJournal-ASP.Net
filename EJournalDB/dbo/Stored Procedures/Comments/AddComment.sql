@@ -8,6 +8,7 @@ INSERT INTO [EJournal].[Comments] (
 	[EJournal].[Comments].[CommentText],
 	[EJournal].[Comments].[CommentType]
 	)
+OUTPUT INSERTED.Id
 VALUES (
 	@Comments,
 	@CommentType

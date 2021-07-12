@@ -26,7 +26,7 @@ namespace EJournal_ASP.Net.Controllers
             return await _lessonService.GetAllLessons();
         }
 
-        [HttpGet("idGroup")]
+        [HttpGet("{idGroup}")]
         public async Task<IEnumerable<Lesson>> GetLessonByIdAsync(int idGroup)
         {
             return await _lessonService.GetLessonByGroupId(idGroup);

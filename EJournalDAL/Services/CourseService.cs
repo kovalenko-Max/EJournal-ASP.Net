@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DataModels;
 using EJournalDAL.Models;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static DataModels.EJournalDBDBStoredProcedures;
@@ -34,7 +36,8 @@ namespace EJournalDAL.Services
 
         public async Task<int?> Add(string name)
         {
-            return _dbConnection.AddCourse(name);
+            var result = _dbConnection.AddCourse(name).FirstOrDefault();
+            return result.Id;
         }
 
         public async Task<bool> Update(Course course)
