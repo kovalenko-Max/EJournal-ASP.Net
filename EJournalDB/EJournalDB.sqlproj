@@ -115,7 +115,6 @@
     <Build Include="dbo\User Defined Types\StudentsComment.sql" />
     <Build Include="dbo\Stored Procedures\Projects\GetStudentsNotInProjectGroup.sql" />
     <Build Include="dbo\Stored Procedures\Students\GetStudentsNotAreInGroup.sql" />
-    <Build Include="dbo\Stored Procedures\Students\UpdateGroupStudents.sql" />
     <Build Include="dbo\User Defined Types\GroupIdsStudentsIds.sql" />
     <Build Include="dbo\Stored Procedures\Groups\DeleteGroup.sql" />
     <Build Include="dbo\Stored Procedures\Groups\AddGroupWithStudents.sql" />
@@ -160,6 +159,7 @@
     <Build Include="dbo\Stored Procedures\Groups\GetAllGroups.sql" />
     <Build Include="dbo\Stored Procedures\Groups\AddStudentsInGroup.sql" />
     <Build Include="dbo\Stored Procedures\Groups\DeleteStudentsFromGroup.sql" />
+    <Build Include="dbo\Stored Procedures\Groups\UpdateGroupStudents.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EJournalDB.refactorlog" />

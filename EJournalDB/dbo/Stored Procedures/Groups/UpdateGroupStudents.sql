@@ -2,7 +2,8 @@
 	@IdGroup int,
 	@NameGroup NVARCHAR(100),
 	@IdCourse INT,
-	@IdsStudent as [EJournal].[GroupIdsStudentsIds] readonly
+	@IdsAddStudent as [EJournal].[GroupIdsStudentsIds] readonly,
+	@IdsDeleteStudent as [EJournal].[GroupIdsStudentsIds] readonly
 AS
 
 UPDATE [EJournal].[Groups]
@@ -11,7 +12,10 @@ SET Name = @NameGroup
 WHERE Id = @IdGroup
 
 DELETE from [EJournal].[GroupStudents]
-  where IdGroup = @IdGroup
+  where IdGroup = @IdGroup and IdStudents in 
+  (
+	select IdStudents from @IdsDeleteStudent
+  )
 
 insert into [EJournal].[GroupStudents] (IdGroup, IdStudents)
-select * from @IdsStudent
+select * from @IdsAddStudent
