@@ -94,7 +94,7 @@ namespace DataModels
 	public partial class EJournal_Comment
 	{
 		[Column(),          PrimaryKey, Identity] public int    Id            { get; set; } // int
-		[Column("Comment"), NotNull             ] public string CommentColumn { get; set; } // nvarchar(255)
+		[Column("Comment"), NotNull             ] public string Comment { get; set; } // nvarchar(255)
 		[Column(),          NotNull             ] public string CommentType   { get; set; } // nvarchar(100)
 	}
 
