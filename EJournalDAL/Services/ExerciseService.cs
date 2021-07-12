@@ -33,14 +33,15 @@ namespace EJournalDAL.Services
             return _dbConnection.AddExerciseToStudent(exercise.IdGroup, exercise.Description, exercise.ExerciseType.ToString(), exercise.Deadline, dt);
         }
 
-        public async Task<bool> UpdateStudentsExcercise(Exercise exercise)
+        public async Task<bool> UpdateStudentsExcercise(Exercise exercise, DataTable dt)
         {
-            int result = _dbConnection.UpdateExercise(exercise.Id, exercise.Description, exercise.Deadline, exercise.IdGroup);
+            int result = _dbConnection.UpdateStudentExercise(exercise.Id, exercise.IdGroup, exercise.Description,
+                exercise.ExerciseType.ToString(), exercise.Deadline, dt );
             return result > 0 ? true : false;
         }
         public async Task<bool> DeleteExcercise(int exerciseId)
         {
-            int result = _dbConnection.DeleteExercises(exerciseId);
+            int result = _dbConnection.DeleteStudentExercise(exerciseId);
             return result > 0 ? true : false;
         }
     }

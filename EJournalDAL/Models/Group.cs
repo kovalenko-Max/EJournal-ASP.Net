@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EJournalDAL.Models
 {
     public class Group
     {
+        public int Id { get; set; }
         private string _name;
         private Course _course;
         private bool _isFinish;
@@ -15,7 +13,6 @@ namespace EJournalDAL.Models
         private List<Student> _students;
         private List<Lesson> _lessons;
 
-        public int Id;
         public string Name
         {
             get
