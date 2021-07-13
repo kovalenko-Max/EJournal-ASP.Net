@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [EJournal].[DeleteComment] @Id INT
 AS
-
-delete [EJournal].[Comments]
+DELETE [EJournal].[Comments]
 WHERE Id = @Id
 
-delete [EJournal].[StudentsComments]
-where IdComment = @Id
+DELETE [EJournal].[StudentsComments]
+WHERE IdComment = @Id

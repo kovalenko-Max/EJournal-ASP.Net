@@ -1,22 +1,27 @@
-﻿CREATE PROCEDURE [EJournal].[AddComment] 
-	@IdStudent int,
+﻿CREATE PROCEDURE [EJournal].[AddComment] @IdStudent INT,
 	@Comments NVARCHAR(255),
-	@CommentType nvarchar(100)
+	@CommentType NVARCHAR(100)
 AS
-
-declare @IdComment int
+DECLARE @IdComment INT
 
 INSERT INTO [EJournal].[Comments] (
-	[EJournal].[Comments].[CommentText]
-	,[EJournal].[Comments].[CommentType]
+	[EJournal].[Comments].[CommentText],
+	[EJournal].[Comments].[CommentType]
 	)
 VALUES (
-	 @Comments
-	,@CommentType
+	@Comments,
+	@CommentType
 	)
-	SET @IdComment = SCOPE_IDENTITY()
 
-	insert into [EJournal].[StudentsComments] (IdComment, IdStudent)
-	values(@IdComment, @IdStudent)
+SET @IdComment = SCOPE_IDENTITY()
 
-	return @IdComment;
+INSERT INTO [EJournal].[StudentsComments] (
+	IdComment,
+	IdStudent
+	)
+VALUES (
+	@IdComment,
+	@IdStudent
+	)
+
+RETURN @IdComment;

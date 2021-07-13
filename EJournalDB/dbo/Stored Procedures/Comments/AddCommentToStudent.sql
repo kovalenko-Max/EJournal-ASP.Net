@@ -1,25 +1,36 @@
-﻿CREATE PROCEDURE [EJournal].[AddCommentToStudent]
-    @CommentType nvarchar(100),
-    @Comment nvarchar(255),
-	@StudentCommentVarible as [EJournal].[StudentsComment] READONLY
+﻿CREATE PROCEDURE [EJournal].[AddCommentToStudent] @CommentType NVARCHAR(100),
+	@Comment NVARCHAR(255),
+	@StudentCommentVarible
 AS
-	DECLARE @IdComment INT
-	DECLARE @StudentsComment as [EJournal].[StudentsComment]
+[EJournal].[StudentsComment] READONLY AS
 
-	Insert into @StudentsComment
-	Select *
-	from @StudentCommentVarible 
+DECLARE @IdComment INT
+DECLARE @StudentsComment AS [EJournal].[StudentsComment]
 
-    Insert INTO [EJournal].Comments( [CommentText], CommentType  )
-    Values(@Comment, @CommentType )
+INSERT INTO @StudentsComment
+SELECT *
+FROM @StudentCommentVarible
 
-	Set @IdComment= SCOPE_IDENTITY()
+INSERT INTO [EJournal].Comments (
+	[CommentText],
+	CommentType
+	)
+VALUES (
+	@Comment,
+	@CommentType
+	)
 
-	Update @StudentsComment 
-	Set IdComment=@IdComment
+SET @IdComment = SCOPE_IDENTITY()
 
-	InSERT INTO [EJournal].StudentsComments(IdStudent, IdComment)
-	Select IdStudent, IdComment
-	 from @StudentsComment
+UPDATE @StudentsComment
+SET IdComment = @IdComment
 
- return @IdComment
+INSERT INTO [EJournal].StudentsComments (
+	IdStudent,
+	IdComment
+	)
+SELECT IdStudent,
+	IdComment
+FROM @StudentsComment
+
+RETURN @IdComment

@@ -21,31 +21,31 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Course>> GetAsync()
+        public async Task<IEnumerable<Course>> GetAllAsync()
         {
             return await _courseService.GetAll();
         }
 
         [HttpGet("id")]
-        public async Task<IEnumerable<Course>> GetAsync(int id)
+        public async Task<IEnumerable<Course>> GetCourseByIdAsync(int id)
         {
             return await _courseService.GetById(id);
         }
 
         [HttpPost]
-        public async Task<int?> Add(Course course)
+        public async Task<int?> AddAsync(Course course)
         {
             return await _courseService.Add(course.Name);
         }
 
         [HttpPut]
-        public async Task<bool> Update(Course course)
+        public async Task<bool> UpdateAsync(Course course)
         {
             return await _courseService.Update(course);
         }
 
         [HttpDelete]
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             return await _courseService.Delete(id);
         }

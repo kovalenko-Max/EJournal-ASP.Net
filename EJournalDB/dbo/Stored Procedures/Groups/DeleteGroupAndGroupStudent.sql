@@ -1,7 +1,9 @@
-﻿CREATE PROCEDURE [EJournal].[DeleteGroupAndGroupStudent] 
-@IdGroup INT
+﻿CREATE PROCEDURE [EJournal].[DeleteGroupAndGroupStudent] @IdGroup INT
 AS
-delete from [EJournal].[GroupStudents]
-where IdGroup = @IdGroup;
-delete from Groups
-where Id = @IdGroup
+DELETE
+FROM [EJournal].[GroupStudents]
+WHERE IdGroup = @IdGroup;
+
+DELETE
+FROM Groups
+WHERE Id = @IdGroup

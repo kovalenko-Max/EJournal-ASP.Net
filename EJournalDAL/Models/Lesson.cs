@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EJournalDAL.Models
 {
@@ -20,23 +17,6 @@ namespace EJournalDAL.Models
             Topic = string.Empty;
             DateLesson = DateTime.Now;
             Attendances = new List<Attendances>();
-        }
-
-        public override bool Equals(object obj)
-        {
-            bool isEquals = obj is Lesson lesson &&
-                   Id == lesson.Id &&
-                   Topic == lesson.Topic &&
-                   DateLesson == lesson.DateLesson &&
-                   IdGroup == lesson.IdGroup &&
-                   Attendances.SequenceEqual(lesson.Attendances);
-
-            return isEquals;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id, Topic, DateLesson, IdGroup, Attendances);
         }
     }
 }

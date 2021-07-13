@@ -1,25 +1,36 @@
-﻿CREATE PROCEDURE [EJournal].[AddExerciseToStudent]
-	@IdGroup int,
-	@Description nvarchar(250),
-	@ExerciseType nvarchar(250),
-	@Deadline datetime,
-	@StudentExerciseVariable as [EJournal].[StudentExercise] Readonly
+﻿CREATE PROCEDURE [EJournal].[AddExerciseToStudent] @IdGroup INT,
+	@Description NVARCHAR(250),
+	@ExerciseType NVARCHAR(250),
+	@Deadline DATETIME,
+	@StudentExerciseVariable
 AS
-	declare @IdExercise int
-	declare @StudentExercise as [EJournal].[StudentExercise]
+[EJournal].[StudentExercise] Readonly AS
 
-	insert into @StudentExercise
-	select *
-	from @StudentExerciseVariable
+DECLARE @IdExercise INT
+DECLARE @StudentExercise AS [EJournal].[StudentExercise]
 
-	insert into [EJournal].[Exercises] (IdGroup, Description, Deadline)
-	values(@IdGroup, @Description, @Deadline)
-	set @IdExercise = SCOPE_IDENTITY()
-	
-	update @StudentExercise
-	set IdExercise = @IdExercise
+INSERT INTO @StudentExercise
+SELECT *
+FROM @StudentExerciseVariable
 
-	insert into [EJournal].[StudentsExercises]
-	select * from @StudentExercise
+INSERT INTO [EJournal].[Exercises] (
+	IdGroup,
+	Description,
+	Deadline
+	)
+VALUES (
+	@IdGroup,
+	@Description,
+	@Deadline
+	)
 
-	RETURN @IdExercise
+SET @IdExercise = SCOPE_IDENTITY()
+
+UPDATE @StudentExercise
+SET IdExercise = @IdExercise
+
+INSERT INTO [EJournal].[StudentsExercises]
+SELECT *
+FROM @StudentExercise
+
+RETURN @IdExercise

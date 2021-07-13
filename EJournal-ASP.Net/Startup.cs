@@ -10,10 +10,7 @@ using System.Reflection;
 using EJournalDAL.Services;
 using DataModels;
 using EJournalDAL.MapperProfiles;
-using NLog;
-using NLog.Config;
 using Microsoft.Extensions.Logging;
-using EJournal_ASP.Net.Controllers;
 using NLog.Extensions.Logging;
 
 namespace EJournal_ASP.Net
@@ -39,7 +36,6 @@ namespace EJournal_ASP.Net
             };
 
             services.AddAutoMapper(assemblies);
-
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICommentService, CommentService>();
@@ -57,8 +53,6 @@ namespace EJournal_ASP.Net
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             });
-
-            services.AddTransient<CourseController>();
 
             services.AddLogging(loggingBuilder =>
             {
@@ -79,9 +73,7 @@ namespace EJournal_ASP.Net
             }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -13,12 +13,12 @@ namespace EJournalDAL.Services
         private readonly EJournalDB _dbConnection;
         private readonly IMapper _mapper;
 
-        
         public StudentService(IMapper mapper, EJournalDB dbConnection)
         {
             _dbConnection = dbConnection;
             _mapper = mapper;
         }
+
         public async Task<int?> AddStudent(Student student)
         {
             return (int)_dbConnection.AddStudent(
@@ -29,37 +29,43 @@ namespace EJournalDAL.Services
                 student.Git,
                 student.City,
                 student.Ranking,
-                student.AgreementNumber).FirstOrDefault().Column1;
+                student.AgreementNumber).FirstOrDefault().Id;
         }
 
-        public async Task<bool> DeleteStudent(int studentId)
+        public async Task<bool> DeleteStudent(int idStudent)
         {
-            int result = _dbConnection.DeleteStudent(studentId);
+            int result = _dbConnection.DeleteStudent(idStudent);
+
             return result > 0;
         }
 
         public async Task<IEnumerable<Student>> GetAllStudents()
         {
             var students = _dbConnection.GetAllStudents();
+
             return _mapper.Map<IEnumerable<Student>>(students);
         }
 
-        public async Task<IEnumerable<Student>> GetStudentById(int studentId)
+        public async Task<IEnumerable<Student>> GetStudentById(int idStudent)
         {
-            var studenId = _dbConnection.GetStudent(studentId);
-            return _mapper.Map<IEnumerable<Student>>(studenId);
+            var student = _dbConnection.GetStudent(idStudent);
+
+            return _mapper.Map<IEnumerable<Student>>(student);
         }
 
-        public async Task<IEnumerable<Student>> GetStudentsByGroupId(int groupId)
+        public async Task<IEnumerable<Student>> GetStudentsByGroupId(int idGroup)
         {
-            var StudentGroup = _dbConnection.GetGroupAndStudentsInIt(groupId);
-            return _mapper.Map<IEnumerable<Student>>(StudentGroup);
+            var studentGroup = _dbConnection.GetGroupAndStudentsInIt(idGroup);
+
+            return _mapper.Map<IEnumerable<Student>>(studentGroup);
         }
 
         public async Task<bool> UpdateStudent(Student student)
         {
-            var UpdateStudents = _dbConnection.UpdateStudent(student.Id,student.Name,student.Surname,student.Email,student.Phone,student.Git,student.City, student.TeacherAssessment,student.AgreementNumber);
-            return UpdateStudents > 0;
+            var updateStudents = _dbConnection.UpdateStudent(student.Id, student.Name, student.Surname, student.Email,
+                student.Phone, student.Git, student.City, student.TeacherAssessment, student.AgreementNumber);
+
+            return updateStudents > 0;
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿CREATE PROCEDURE [EJournal].[AddGroup] @Name NVARCHAR(100)
-	,@IdCourse INT
+﻿CREATE PROCEDURE [EJournal].[AddGroup] @Name NVARCHAR(100),
+	@IdCourse INT
 AS
 INSERT INTO [EJournal].[Groups] (
-	Name
-	,IdCourse
+	[Name],
+	IdCourse
 	)
+OUTPUT INSERTED.Id
 VALUES (
-	@Name
-	,@IdCourse
+	@Name,
+	@IdCourse
 	)
-
-SELECT CAST(SCOPE_IDENTITY() AS INT)

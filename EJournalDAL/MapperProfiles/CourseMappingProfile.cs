@@ -8,21 +8,11 @@ namespace EJournalDAL.MapperProfiles
     {
         public CourseMappingProfile()
         {
-            CreateMap<Course, GetAllCoursesResult>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            CreateMap<Course, GetAllCoursesResult>();
+            CreateMap<GetAllCoursesResult, Course>();
 
-            CreateMap<GetAllCoursesResult, Course>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
-
-            CreateMap<Course, GetCourseResult>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
-
-            CreateMap<GetCourseResult, Course>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            CreateMap<Course, GetCourseResult>();
+            CreateMap<GetCourseResult, Course>();
         }
     }
 }

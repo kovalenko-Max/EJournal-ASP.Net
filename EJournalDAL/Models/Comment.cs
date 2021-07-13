@@ -20,18 +20,5 @@
         {
             return CommentText;
         }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Comment comment &&
-                   Id == comment.Id &&
-                   CommentText == comment.CommentText &&
-                   CommentType == comment.CommentType;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

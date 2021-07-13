@@ -22,9 +22,10 @@ namespace EJournalDAL.Models
             set
             {
                 _name = value;
-                GrouChanged?.Invoke(this, new EventArgs());
+                GroupChanged?.Invoke(this, new EventArgs());
             }
         }
+
         public Course Course
         {
             get
@@ -34,7 +35,7 @@ namespace EJournalDAL.Models
             set
             {
                 _course = value;
-                GrouChanged?.Invoke(this, new EventArgs());
+                GroupChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -47,9 +48,10 @@ namespace EJournalDAL.Models
             set
             {
                 _isFinish = value;
-                GrouChanged?.Invoke(this, new EventArgs());
+                GroupChanged?.Invoke(this, new EventArgs());
             }
         }
+
         public int StudentsCount { get; set; }
 
         public List<Student> Students
@@ -62,9 +64,10 @@ namespace EJournalDAL.Models
             {
                 _students = value;
                 StudentsCount = _students.Count;
-                GrouChanged?.Invoke(this, new EventArgs());
+                GroupChanged?.Invoke(this, new EventArgs());
             }
         }
+
         public List<Lesson> Lessons
         {
             get
@@ -74,35 +77,23 @@ namespace EJournalDAL.Models
             set
             {
                 _lessons = value;
-                GrouChanged?.Invoke(this, new EventArgs());
+                GroupChanged?.Invoke(this, new EventArgs());
             }
         }
 
-        public event EventHandler GrouChanged;
+        public event EventHandler GroupChanged;
+
         public Group()
         {
 
         }
+
         public Group(string name, Course course)
         {
             Name = name;
             Course = course;
             IsFinish = false;
             Students = new List<Student>();
-        }
-
-        public override bool Equals(object obj)
-        {
-            bool equal = false;
-            Group group = obj as Group;
-
-            if (!(group is null) && Id == group.Id && Name == group.Name && Course.Equals(group.Course)
-                && IsFinish == group.IsFinish && StudentsCount == group.StudentsCount)
-            {
-                equal = true;
-            }
-
-            return equal;
         }
     }
 }

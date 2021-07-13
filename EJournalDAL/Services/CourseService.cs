@@ -20,14 +20,15 @@ namespace EJournalDAL.Services
 
         public async Task<IEnumerable<Course>> GetAll()
         {
-            IEnumerable<GetAllCoursesResult> courses = new List<GetAllCoursesResult>(_dbConnection.GetAllCourses());
-            
+            var courses = new List<GetAllCoursesResult>(_dbConnection.GetAllCourses());
+
             return _mapper.Map<List<Course>>(courses);
         }
 
         public async Task<IEnumerable<Course>> GetById(int id)
         {
-            IEnumerable<GetCourseResult> courses = new List<GetCourseResult>(_dbConnection.GetCourse(id));
+            var courses = new List<GetCourseResult>(_dbConnection.GetCourse(id));
+
             return _mapper.Map<List<Course>>(courses);
         }
 
@@ -39,13 +40,15 @@ namespace EJournalDAL.Services
         public async Task<bool> Update(Course course)
         {
             int result = _dbConnection.UpdateCourse(course.Id, course.Name);
-            return result > 0 ? true : false;
+
+            return result > 0;
         }
 
         public async Task<bool> Delete(int id)
         {
             int result = _dbConnection.DeleteCourse(id);
-            return result > 0 ? true : false;
+
+            return result > 0;
         }
     }
 }

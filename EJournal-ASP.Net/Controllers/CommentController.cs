@@ -20,16 +20,16 @@ namespace EJournal_ASP.Net.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<Comment>> GetCommentsByStudentIdAsync(int studentId)
+        [HttpGet("idStudent")]
+        public async Task<IEnumerable<Comment>> GetCommentsByStudentIdAsync(int idStudent)
         {
-            return await _commentService.GetCommentsByStudentId(studentId);
+            return await _commentService.GetCommentsByStudentId(idStudent);
         }
 
         [HttpPost]
-        public async Task<bool> AddAsync(Comment comment, int studentId)
+        public async Task<bool> AddAsync(Comment comment, int idStudent)
         {
-            return await _commentService.AddComment(comment, studentId);
+            return await _commentService.AddComment(comment, idStudent);
         }
 
         [HttpPut]
@@ -39,9 +39,9 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpDelete]
-        public async Task<bool> DeleteAsync(int commentId)
+        public async Task<bool> DeleteAsync(int idComment)
         {
-            return await _commentService.DeleteComment(commentId);
+            return await _commentService.DeleteComment(idComment);
         }
     }
 }

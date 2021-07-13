@@ -21,15 +21,15 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Group>> GetAsync()
+        public async Task<IEnumerable<Group>> GetAllAsync()
         {
             return await _groupService.GetAllGroups();
         }
 
-        [HttpGet("groupId")]
-        public async Task<IEnumerable<Group>> GetGroupByIdAsync(int groupId)
+        [HttpGet("id")]
+        public async Task<IEnumerable<Group>> GetGroupByIdAsync(int idGroup)
         {
-            return await _groupService.GetGroupById(groupId);
+            return await _groupService.GetGroupById(idGroup);
         }
 
         [HttpPost]
@@ -38,17 +38,17 @@ namespace EJournal_ASP.Net.Controllers
             return await _groupService.AddGroup(group);
         }
 
-        [HttpPost("withStudents")]
+        [HttpPost("addWithStudents")]
         public async Task<int?> AddGroupWithStudentsAsync(Group group)
         {
             return await _groupService.AddGroupWithStudents(group);
         }
 
-        [HttpPost("updateStudentsInGroup")]
-        public async Task<bool> UpdateStudentsInGroup([FromBody] Group group, 
+        [HttpPost("updateStudents")]
+        public async Task<bool> UpdateStudentsInGroupAsync([FromBody] Group group,
             [FromQuery] List<int> idsAddStudents, [FromQuery] List<int> idsDeleteStudents)
         {
-            return await _groupService.UpdateStudentsInGroup( group, idsAddStudents, idsDeleteStudents);
+            return await _groupService.UpdateStudentsInGroup(group, idsAddStudents, idsDeleteStudents);
         }
 
         [HttpPut]
@@ -58,9 +58,9 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpDelete]
-        public async Task<bool> DeleteAsync(int groupId)
+        public async Task<bool> DeleteAsync(int idGroup)
         {
-            return await _groupService.DeleteGroup(groupId);
+            return await _groupService.DeleteGroup(idGroup);
         }
     }
 }

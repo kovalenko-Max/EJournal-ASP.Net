@@ -2,10 +2,8 @@
 using EJournalDAL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EJournal_ASP.Net.Controllers
@@ -16,31 +14,28 @@ namespace EJournal_ASP.Net.Controllers
     {
         private readonly ILogger<CourseController> _logger;
         private readonly IExerciseService _exerciseService;
-        
-        private DataTable exerciseModel;
+        private DataTable _exerciseModel;
         public List<Exercise> Exercises { get; set; }
 
         public ExerciseController(IExerciseService exerciseService, ILogger<CourseController> logger)
         {
             _exerciseService = exerciseService;
             _logger = logger;
-
             Exercises = new List<Exercise>();
-
-            exerciseModel = new DataTable();
-            exerciseModel.Columns.Add("IdStudent");
-            exerciseModel.Columns.Add("IdExercise");
-            exerciseModel.Columns.Add("Points");
+            _exerciseModel = new DataTable();
+            _exerciseModel.Columns.Add("IdStudent");
+            _exerciseModel.Columns.Add("IdExercise");
+            _exerciseModel.Columns.Add("Points");
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Exercise>> GetAsync(int groupId)
+        public async Task<IEnumerable<Exercise>> GetExcercisesByGroupIdAsync(int idGroup)
         {
-            return await _exerciseService.GetExcercisesByGroupId(groupId);
+            return await _exerciseService.GetExcercisesByGroupId(idGroup);
         }
 
         [HttpPost]
-        public async Task<int?> Add([FromQuery]Exercise exercise, [FromBody]DataTable dt)
+        public async Task<int?> AddAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
         {
             return await _exerciseService.AddExcerciseToGroup(exercise, dt);
         }
@@ -52,7 +47,7 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpDelete]
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             return await _exerciseService.DeleteExcercise(id);
         }

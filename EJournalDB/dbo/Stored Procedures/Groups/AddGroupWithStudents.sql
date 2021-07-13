@@ -1,24 +1,35 @@
-﻿CREATE PROCEDURE [EJournal].[AddGroupWithStudents]
-	@NameGroup NVARCHAR(100),
+﻿CREATE PROCEDURE [EJournal].[AddGroupWithStudents] @NameGroup NVARCHAR(100),
 	@IdCourse INT,
-	@IdsStudent as [EJournal].[GroupIdsStudentsIds] readonly
+	@IdsStudent
 AS
+[EJournal].[GroupIdsStudentsIds] readonly AS
 
-declare @IdGroup int
-declare @GroupStudentsCopy as [EJournal].[GroupIdsStudentsIds]
+DECLARE @IdGroup INT
+DECLARE @GroupStudentsCopy AS [EJournal].[GroupIdsStudentsIds]
 
-insert into @GroupStudentsCopy
-select *
-from @IdsStudent
+INSERT INTO @GroupStudentsCopy
+SELECT *
+FROM @IdsStudent
 
-insert into [EJournal].[Groups] (Name, IdCourse)
-values (@NameGroup, @IdCourse)
+INSERT INTO [EJournal].[Groups] (
+	Name,
+	IdCourse
+	)
+VALUES (
+	@NameGroup,
+	@IdCourse
+	)
+
 SET @IdGroup = SCOPE_IDENTITY()
 
-update @GroupStudentsCopy
-set IdGroup = @IdGroup
+UPDATE @GroupStudentsCopy
+SET IdGroup = @IdGroup
 
-insert into [EJournal].[GroupStudents] (IdGroup, IdStudents)
-select * from @GroupStudentsCopy
+INSERT INTO [EJournal].[GroupStudents] (
+	IdGroup,
+	IdStudents
+	)
+SELECT *
+FROM @GroupStudentsCopy
 
-return @IdGroup
+RETURN @IdGroup

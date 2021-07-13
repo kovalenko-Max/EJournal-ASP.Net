@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EJournalDAL.Models
+﻿namespace EJournalDAL.Models
 {
     public class StudentMark
     {
         public Student Student { get; set; }
         public int Point { get; set; }
 
-        public StudentMark(Student student, int point)
+        public StudentMark()
         {
-            Student = student;
-            Point = point;
+
         }
 
         public StudentMark(Student student)
@@ -22,11 +15,10 @@ namespace EJournalDAL.Models
             Student = student;
         }
 
-        public override bool Equals(object obj)
+        public StudentMark(Student student, int point)
         {
-            return obj is StudentMark mark &&
-                   EqualityComparer<Student>.Default.Equals(Student, mark.Student) &&
-                   Point == mark.Point;
+            Student = student;
+            Point = point;
         }
     }
 }

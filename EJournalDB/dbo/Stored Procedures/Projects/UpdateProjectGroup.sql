@@ -1,16 +1,23 @@
-﻿CREATE PROCEDURE [EJournal].[UpdateProjectGroup] 
-	 @Id INT
-	,@Name NVARCHAR(100)
-	,@Mark INT
-	,@Students as [EJournal].[StudentsIds] READONLY
+﻿CREATE PROCEDURE [EJournal].[UpdateProjectGroup] @Id INT,
+	@Name NVARCHAR(100),
+	@Mark INT,
+	@Students
 AS
+[EJournal].[StudentsIds] READONLY AS
+
 UPDATE [EJournal].[ProjectGroups]
-SET Name = @Name, Mark = @Mark
+SET Name = @Name,
+	Mark = @Mark
 WHERE Id = @Id
 
-delete from StudetsProjectGroup
-where IdProjectGroup = @Id
+DELETE
+FROM StudetsProjectGroup
+WHERE IdProjectGroup = @Id
 
-insert into StudetsProjectGroup ( IdProjectGroup, IdStudent)
-select IdProjectGroup, Idstudent
-from @Students
+INSERT INTO StudetsProjectGroup (
+	IdProjectGroup,
+	IdStudent
+	)
+SELECT IdProjectGroup,
+	Idstudent
+FROM @Students

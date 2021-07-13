@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EJournalDAL.Services
 {
-   public interface IStudentService
+    public interface IStudentService
     {
         Task<IEnumerable<Student>> GetAllStudents();
         Task<IEnumerable<Student>> GetStudentById(int studentId);
@@ -12,6 +12,5 @@ namespace EJournalDAL.Services
         Task<int?> AddStudent(Student student);
         Task<bool> UpdateStudent(Student student);
         Task<bool> DeleteStudent(int studentId);
-       
     }
 }

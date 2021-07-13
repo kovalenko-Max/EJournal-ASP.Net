@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [EJournal].[DeleteStudentExercise]
-@Id int
+﻿CREATE PROCEDURE [EJournal].[DeleteStudentExercise] @Id INT
 AS
-	delete [EJournal].StudentsExercises
-	where IdExercise = @Id
-	delete [EJournal].Exercises
-	where Id = @Id
+DELETE [EJournal].StudentsExercises
+WHERE IdExercise = @Id
+
+DELETE [EJournal].Exercises
+WHERE Id = @Id

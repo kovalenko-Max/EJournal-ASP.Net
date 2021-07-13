@@ -23,7 +23,7 @@ namespace DataModels
 	/// <summary>
 	/// Database       : EJournalDB
 	/// Data Source    : .
-	/// Server Version : 15.00.2000
+	/// Server Version : 15.00.2080
 	/// </summary>
 	public partial class EJournalDB : LinqToDB.Data.DataConnection
 	{
@@ -263,21 +263,14 @@ namespace DataModels
 
 		public static IEnumerable<AddGroupResult> AddGroup(this EJournalDB dataConnection, string @Name, int? @IdCourse)
 		{
-			var ms = dataConnection.MappingSchema;
-
-			return dataConnection.QueryProc(dataReader =>
-				new AddGroupResult
-				{
-					Column1 = Converter.ChangeTypeTo<int?>(dataReader.GetValue(0), ms),
-				},
-				"[EJournal].[AddGroup]",
+			return dataConnection.QueryProc<AddGroupResult>("[EJournal].[AddGroup]",
 				new DataParameter("@Name",     @Name,     LinqToDB.DataType.NVarChar),
 				new DataParameter("@IdCourse", @IdCourse, LinqToDB.DataType.Int32));
 		}
 
 		public partial class AddGroupResult
 		{
-			[Column("")] public int? Column1 { get; set; }
+			public int Id { get; set; }
 		}
 
 		#endregion
@@ -356,14 +349,7 @@ namespace DataModels
 
 		public static IEnumerable<AddStudentResult> AddStudent(this EJournalDB dataConnection, string @Name, string @Surname, string @Email, string @Phone, string @Git, string @City, int? @Ranking, string @AgreementNumber)
 		{
-			var ms = dataConnection.MappingSchema;
-
-			return dataConnection.QueryProc(dataReader =>
-				new AddStudentResult
-				{
-					Column1 = Converter.ChangeTypeTo<int?>(dataReader.GetValue(0), ms),
-				},
-				"[EJournal].[AddStudent]",
+			return dataConnection.QueryProc<AddStudentResult>("[EJournal].[AddStudent]",
 				new DataParameter("@Name",            @Name,            LinqToDB.DataType.NVarChar),
 				new DataParameter("@Surname",         @Surname,         LinqToDB.DataType.NVarChar),
 				new DataParameter("@Email",           @Email,           LinqToDB.DataType.NVarChar),
@@ -376,7 +362,7 @@ namespace DataModels
 
 		public partial class AddStudentResult
 		{
-			[Column("")] public int? Column1 { get; set; }
+			public int Id { get; set; }
 		}
 
 		#endregion
@@ -524,29 +510,17 @@ namespace DataModels
 
 		public static IEnumerable<GetAllGroupsResult> GetAllGroups(this EJournalDB dataConnection)
 		{
-			var ms = dataConnection.MappingSchema;
-
-			return dataConnection.QueryProc(dataReader =>
-				new GetAllGroupsResult
-				{
-					Id            = Converter.ChangeTypeTo<int>   (dataReader.GetValue(0), ms),
-					Name          = Converter.ChangeTypeTo<string>(dataReader.GetValue(1), ms),
-					StudentsCount = Converter.ChangeTypeTo<int?>  (dataReader.GetValue(2), ms),
-					Column4       = Converter.ChangeTypeTo<int?>  (dataReader.GetValue(3), ms),
-					Column5       = Converter.ChangeTypeTo<string>(dataReader.GetValue(4), ms),
-					IsFinish      = Converter.ChangeTypeTo<bool>  (dataReader.GetValue(5), ms),
-				},
-				"[EJournal].[GetAllGroups]");
+			return dataConnection.QueryProc<GetAllGroupsResult>("[EJournal].[GetAllGroups]");
 		}
 
 		public partial class GetAllGroupsResult
 		{
-			                 public int    Id            { get; set; }
-			                 public string Name          { get; set; }
-			                 public int?   StudentsCount { get; set; }
-			[Column("Id")  ] public int?   Column4       { get; set; }
-			[Column("Name")] public string Column5       { get; set; }
-			                 public bool   IsFinish      { get; set; }
+			public int    Id            { get; set; }
+			public string Name          { get; set; }
+			public int?   StudentsCount { get; set; }
+			public int?   IdCourse      { get; set; }
+			public string NameCourse    { get; set; }
+			public bool   IsFinish      { get; set; }
 		}
 
 		#endregion
