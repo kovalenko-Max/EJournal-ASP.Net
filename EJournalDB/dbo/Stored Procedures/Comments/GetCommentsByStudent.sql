@@ -3,7 +3,7 @@ CREATE PROCEDURE [EJournal].[GetCommentsByStudent]
 AS
 SELECT
 [EJournal].[Comments].[Id]
-,[EJournal].[Comments].[Comment]
+,[EJournal].[Comments].[CommentText]
 ,[EJournal].[Comments].[CommentType]
 FROM [EJournal].[StudentsComments]
 INNER JOIN [EJournal].[Comments] ON [EJournal].[Comments].[Id] = [EJournal].[StudentsComments].[IdComment]

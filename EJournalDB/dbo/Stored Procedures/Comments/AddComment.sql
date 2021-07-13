@@ -7,7 +7,7 @@ AS
 declare @IdComment int
 
 INSERT INTO [EJournal].[Comments] (
-	[EJournal].[Comments].[Comment]
+	[EJournal].[Comments].[CommentText]
 	,[EJournal].[Comments].[CommentType]
 	)
 VALUES (
