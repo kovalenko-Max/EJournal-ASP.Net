@@ -1,6 +1,10 @@
-﻿CREATE PROCEDURE [EJournal].[AddStudentsInGroup]
-	@IdsStudent as [EJournal].[GroupIdsStudentsIds] readonly
+﻿CREATE PROCEDURE [EJournal].[AddStudentsInGroup] @IdsStudent
 AS
+[EJournal].[GroupIdsStudentsIds] readonly AS
 
-insert into [EJournal].[GroupStudents] (IdGroup, IdStudents)
-select * from @IdsStudent
+INSERT INTO [EJournal].[GroupStudents] (
+	IdGroup,
+	IdStudents
+	)
+SELECT *
+FROM @IdsStudent

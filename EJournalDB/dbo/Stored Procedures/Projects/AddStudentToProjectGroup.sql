@@ -1,11 +1,11 @@
-﻿CREATE PROCEDURE [EJournal].AddStudentToProjectGroup @IdStudent INT
-	,@IdProjectGroup INT
+﻿CREATE PROCEDURE [EJournal].AddStudentToProjectGroup @IdStudent INT,
+	@IdProjectGroup INT
 AS
 INSERT INTO [EJournal].StudetsProjectGroup (
-	IdStudent
-	,IdProjectGroup
+	IdStudent,
+	IdProjectGroup
 	)
 VALUES (
-	@IdStudent
-	,@IdProjectGroup
+	@IdStudent,
+	@IdProjectGroup
 	)

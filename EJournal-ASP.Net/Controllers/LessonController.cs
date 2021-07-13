@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EJournal_ASP.Net.Controllers
 {
-    [Route("lesson/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class LessonController : ControllerBase
     {
@@ -26,10 +26,10 @@ namespace EJournal_ASP.Net.Controllers
             return await _lessonService.GetAllLessons();
         }
 
-        [HttpGet("lessonByIdGroup")]
-        public async Task<IEnumerable<Lesson>> GetLessonByIdAsync(int groupId)
+        [HttpGet("idGroup")]
+        public async Task<IEnumerable<Lesson>> GetLessonByIdAsync(int idGroup)
         {
-            return await _lessonService.GetLessonByGroupId(groupId);
+            return await _lessonService.GetLessonByGroupId(idGroup);
         }
 
         [HttpPost]
@@ -39,9 +39,9 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpDelete]
-        public async Task<bool> DeleteAsync(int lessonId)
+        public async Task<bool> DeleteAsync(int idLesson)
         {
-            return await _lessonService.DeleteLesson(lessonId);
+            return await _lessonService.DeleteLesson(idLesson);
         }
 
         [HttpPut]

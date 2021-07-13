@@ -22,7 +22,7 @@ namespace EJournalDAL.Services
 
         public async Task<int?> AddGroup(Group group)
         {
-            return _dbConnection.AddGroup(group.Name, group.Course.Id).FirstOrDefault().Column1;
+            return _dbConnection.AddGroup(group.Name, group.Course.Id).FirstOrDefault().Id;
         }
 
         public async Task<int> AddGroupWithStudents(Group group)
@@ -73,7 +73,7 @@ namespace EJournalDAL.Services
 
         public async Task<IEnumerable<Group>> GetAllGroups()
         {
-            IEnumerable<GetAllGroupsResult> groups = new List<GetAllGroupsResult>(_dbConnection.GetAllGroups());
+            var groups = new List<GetAllGroupsResult>(_dbConnection.GetAllGroups());
 
             return _mapper.Map<IEnumerable<Group>>(groups);
         }

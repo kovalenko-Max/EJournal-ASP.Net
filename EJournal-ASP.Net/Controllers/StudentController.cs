@@ -1,16 +1,13 @@
 ﻿using EJournalDAL.Models;
 using EJournalDAL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EJournal_ASP.Net.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
@@ -22,37 +19,43 @@ namespace EJournal_ASP.Net.Controllers
             _studentService = studentService;
             _logger = logger;
         }
+
         [HttpGet]
-        public async Task<IEnumerable<Student>> GetAsync()
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
             return await _studentService.GetAllStudents();
         }
+
         [HttpGet]
-        [Route("Id")]
-        public async Task<IEnumerable<Student>> GetStudentById(int studentId)
+        [Route("id")]
+        public async Task<IEnumerable<Student>> GetStudentByIdAsync(int idStudent)
         {
-            return await _studentService.GetStudentById(studentId);
+            return await _studentService.GetStudentById(idStudent);
         }
+
         [HttpGet]
-        [Route("groupId")]
-        public async Task<IEnumerable<Student>> GetStudentByGroupId(int groupId)
+        [Route("idGroup")]
+        public async Task<IEnumerable<Student>> GetStudentsByGroupIdAsync(int idGroup)
         {
-            return await _studentService.GetStudentById(groupId);
+            return await _studentService.GetStudentById(idGroup);
         }
+
         [HttpPost]
-        public async Task<int?> AddStudent(Student student)
+        public async Task<int?> AddAsync(Student student)
         {
             return await _studentService.AddStudent(student);
         }
+
         [HttpPut]
-        public async Task<bool> UpdateStudent(Student student)
+        public async Task<bool> UpdateAsync(Student student)
         {
             return await _studentService.UpdateStudent(student);
         }
+
         [HttpDelete]
-        public async Task<bool> RemoveStudent(int studentId)
+        public async Task<bool> DeleteAsync(int idStudent)
         {
-            return await _studentService.DeleteStudent(studentId);
+            return await _studentService.DeleteStudent(idStudent);
         }
     }
 }

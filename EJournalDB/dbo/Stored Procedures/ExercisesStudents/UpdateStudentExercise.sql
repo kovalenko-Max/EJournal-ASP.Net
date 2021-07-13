@@ -1,17 +1,23 @@
-﻿CREATE PROCEDURE [EJournal].[UpdateStudentExercise]
-	@Id int,
-	@IdGroup int,
-	@Description nvarchar(250),
-	@ExerciseType nvarchar(250),
-	@Deadline datetime,
-	@StudentExercise as [EJournal].[StudentExercise] Readonly
+﻿CREATE PROCEDURE [EJournal].[UpdateStudentExercise] @Id INT,
+	@IdGroup INT,
+	@Description NVARCHAR(250),
+	@ExerciseType NVARCHAR(250),
+	@Deadline DATETIME,
+	@StudentExercise
 AS
-	update [EJournal].[Exercises]
-	set Description = @Description, Deadline = @Deadline, ExerciseType = @ExerciseType
-	where Exercises.Id = @Id
+[EJournal].[StudentExercise] Readonly AS
 
-	MERGE [EJournal].[StudentsExercises] as SE
-	using @StudentExercise as SEV
-	on SEV.IdStudent = SE.IdStudent and SEV.IdExercise=SE.IdExercise
-	WHEN MATCHED THEN
-       UPDATE SET SE.Point = SEV.Points;
+UPDATE [EJournal].[Exercises]
+SET Description = @Description,
+	Deadline = @Deadline,
+	ExerciseType = @ExerciseType
+WHERE Exercises.Id = @Id
+
+MERGE [EJournal].[StudentsExercises] AS SE
+USING @StudentExercise AS SEV
+	ON SEV.IdStudent = SE.IdStudent
+		AND SEV.IdExercise = SE.IdExercise
+WHEN MATCHED
+	THEN
+		UPDATE
+		SET SE.Point = SEV.Points;

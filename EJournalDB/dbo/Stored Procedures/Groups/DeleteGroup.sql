@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [EJournal].[DeleteGroup]
-	@IdGroup int
+﻿CREATE PROCEDURE [EJournal].[DeleteGroup] @IdGroup INT
 AS
-	delete from [EJournal].[Groups]
-	where Id = @IdGroup
+DELETE
+FROM [EJournal].[Groups]
+WHERE Id = @IdGroup

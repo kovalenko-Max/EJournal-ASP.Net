@@ -27,7 +27,7 @@ namespace EJournalDAL.Services
 
         public async Task<IEnumerable<Comment>> GetCommentsByStudentId(int studentId)
         {
-            IEnumerable<EJournal_Comment> comments = new List<EJournal_Comment>(_dbConnection.GetCommentsByStudent(studentId));
+            var comments = new List<EJournal_Comment>(_dbConnection.GetCommentsByStudent(studentId));
 
             return _mapper.Map<List<Comment>>(comments);
         }

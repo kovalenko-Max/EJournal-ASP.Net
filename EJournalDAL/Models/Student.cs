@@ -20,6 +20,7 @@ namespace EJournalDAL.Models
         {
 
         }
+
         public Student(string name, string surname, string email, string phone, string git, string city, string agreementNumber)
         {
             Name = name;
@@ -42,34 +43,6 @@ namespace EJournalDAL.Models
         public override string ToString()
         {
             return $"{Name} {Surname}";
-        }
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-        public override bool Equals(object obj)
-        {
-            bool isEquals = false;
-            if (obj is Student)
-            {
-                Student student = (Student)obj;
-                isEquals = Id == student.Id &&
-                   Name == student.Name &&
-                   Surname == student.Surname &&
-                   Email == student.Email &&
-                   Phone == student.Phone &&
-                   Git == student.Git &&
-                   City == student.City &&
-                   Ranking == student.Ranking &&
-                   AgreementNumber == student.AgreementNumber;
-
-                if ((Comments.Count == student.Comments.Count) && Comments.Count != 0)
-                {
-                    EqualityComparer<List<Comment>>.Default.Equals(Comments, student.Comments);
-                }
-            }
-
-            return isEquals;
         }
     }
 }

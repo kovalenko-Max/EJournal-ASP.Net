@@ -1,5 +1,4 @@
-﻿using DataModels;
-using EJournalDAL.Models;
+﻿using EJournalDAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

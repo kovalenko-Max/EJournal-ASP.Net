@@ -1,15 +1,14 @@
-﻿CREATE PROCEDURE [EJournal].[SearchStudentsByFullName]
-@Name NVARCHAR(100)
+﻿CREATE PROCEDURE [EJournal].[SearchStudentsByFullName] @Name NVARCHAR(100)
 AS
-	SELECT [Id]
-	,[Name]
-	,[Surname]
-	,[Email]
-	,[Phone]
-	,[Git]
-	,[City]
-	,[Ranking]
-	,[AgreementNumber]
+SELECT [Id],
+	[Name],
+	[Surname],
+	[Email],
+	[Phone],
+	[Git],
+	[City],
+	[Ranking],
+	[AgreementNumber]
 FROM [EJournal].[Students]
-WHERE IsDelete = 0 AND 
-	([Name] +' '+[Surname]) like ('%' + LTRIM(RTRIM(@Name))+ '%')
+WHERE IsDelete = 0
+	AND ([Name] + ' ' + [Surname]) LIKE ('%' + LTRIM(RTRIM(@Name)) + '%')

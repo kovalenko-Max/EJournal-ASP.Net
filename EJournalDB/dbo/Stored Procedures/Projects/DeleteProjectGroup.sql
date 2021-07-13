@@ -1,4 +1,4 @@
 ﻿CREATE PROCEDURE [EJournal].[DeleteProjectGroup] @Id INT
 AS
-Delete [EJournal].[ProjectGroups]
+DELETE [EJournal].[ProjectGroups]
 WHERE Id = @Id

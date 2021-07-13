@@ -39,7 +39,7 @@ namespace EJournalDAL.Services
 
         public async Task<IEnumerable<Lesson>> GetLessonByGroupId(int idGroup)
         {
-            IEnumerable<GetLessonResult> lessons = new List<GetLessonResult>(_dbConnection.GetLesson(idGroup));
+            var lessons = new List<GetLessonResult>(_dbConnection.GetLesson(idGroup));
 
             return _mapper.Map<List<Lesson>>(lessons);
         }

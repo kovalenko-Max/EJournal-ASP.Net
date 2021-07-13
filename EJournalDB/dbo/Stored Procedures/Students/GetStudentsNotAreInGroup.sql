@@ -1,19 +1,19 @@
-﻿CREATE PROCEDURE [EJournal].[GetStudentsNotAreInGroup]
-	@IdGroup int
+﻿CREATE PROCEDURE [EJournal].[GetStudentsNotAreInGroup] @IdGroup INT
 AS
-	SELECT
-S.[Id]
-,S.[Name]
-,S.[Surname]
-,S.[Email]
-,S.[Phone]
-,S.[Git]
-,S.[City]
-,S.[Ranking]
-,S.[AgreementNumber]
-
-from [EJournal].[Students] S
-where S.IsDelete = 0 and Id not in  
-(select IdStudents from [EJournal].GroupStudents
-where IdGroup = @IdGroup)
-order by S.Name
+SELECT S.[Id],
+	S.[Name],
+	S.[Surname],
+	S.[Email],
+	S.[Phone],
+	S.[Git],
+	S.[City],
+	S.[Ranking],
+	S.[AgreementNumber]
+FROM [EJournal].[Students] S
+WHERE S.IsDelete = 0
+	AND Id NOT IN (
+		SELECT IdStudents
+		FROM [EJournal].GroupStudents
+		WHERE IdGroup = @IdGroup
+		)
+ORDER BY S.Name

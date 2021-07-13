@@ -1,26 +1,41 @@
-﻿CREATE PROCEDURE [EJournal].[AddStudentsAttendance]
-	@Topic nvarchar(250),
-	@DateLesson datetime, 
-	@IdGroup int,
-	@StudentAttendanceVariable as [EJournal].[StudentAttendance] READONLY
-
+﻿CREATE PROCEDURE [EJournal].[AddStudentsAttendance] @Topic NVARCHAR(250),
+	@DateLesson DATETIME,
+	@IdGroup INT,
+	@StudentAttendanceVariable
 AS
-	declare @IdLesson int
-	declare @StudentAttendance as [EJournal].[StudentAttendance]
+[EJournal].[StudentAttendance] READONLY AS
 
-	insert into @StudentAttendance
-	select *
-	from @StudentAttendanceVariable
+DECLARE @IdLesson INT
+DECLARE @StudentAttendance AS [EJournal].[StudentAttendance]
 
-	insert into [EJournal].Lessons (Topic, DateLesson, IdGroup)
-	values(@Topic, @DateLesson, @IdGroup)
-	SET @IdLesson = SCOPE_IDENTITY()
-	
-	update @StudentAttendance
-	set LessonsIds = @IdLesson
+INSERT INTO @StudentAttendance
+SELECT *
+FROM @StudentAttendanceVariable
 
-	insert into [EJournal].[Attendances](IdLesson, IdStudent, IsPresence)
-	select LessonsIds, StudentId, isPresense
-	from @StudentAttendance
+INSERT INTO [EJournal].Lessons (
+	Topic,
+	DateLesson,
+	IdGroup
+	)
+VALUES (
+	@Topic,
+	@DateLesson,
+	@IdGroup
+	)
 
-	return @IdLesson
+SET @IdLesson = SCOPE_IDENTITY()
+
+UPDATE @StudentAttendance
+SET LessonsIds = @IdLesson
+
+INSERT INTO [EJournal].[Attendances] (
+	IdLesson,
+	IdStudent,
+	IsPresence
+	)
+SELECT LessonsIds,
+	StudentId,
+	isPresense
+FROM @StudentAttendance
+
+RETURN @IdLesson

@@ -19,17 +19,5 @@
         {
             return Name;
         }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Course course &&
-                   Id == course.Id &&
-                   Name == course.Name;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

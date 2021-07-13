@@ -1,13 +1,13 @@
-﻿CREATE PROCEDURE [EJournal].[AddProjectGroup] @Name NVARCHAR(100)
-	,@IdProject INT
+﻿CREATE PROCEDURE [EJournal].[AddProjectGroup] @Name NVARCHAR(100),
+	@IdProject INT
 AS
 INSERT INTO [EJournal].[ProjectGroups] (
-	Name
-	,IdProject
+	Name,
+	IdProject
 	)
 VALUES (
-	@Name
-	,@IdProject
+	@Name,
+	@IdProject
 	)
 
 SELECT CAST(SCOPE_IDENTITY() AS INT)
