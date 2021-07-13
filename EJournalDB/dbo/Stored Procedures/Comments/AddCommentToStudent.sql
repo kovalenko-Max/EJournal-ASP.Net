@@ -10,7 +10,7 @@ AS
 	Select *
 	from @StudentCommentVarible 
 
-    Insert INTO [EJournal].Comments( Comment, CommentType  )
+    Insert INTO [EJournal].Comments( [CommentText], CommentType  )
     Values(@Comment, @CommentType )
 
 	Set @IdComment= SCOPE_IDENTITY()

@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EJournal-ASP.Net", "EJourna
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EJournalDB", "EJournalDB\EJournalDB.sqlproj", "{6E3FE2C2-8086-44DF-BCF3-DCB1975C495C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EJournalDAL", "EJournalDAL\EJournalDAL.csproj", "{F977A647-7148-4906-99EC-31E72F1D5328}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EJournalDALTests", "EJournalDALTests\EJournalDALTests.csproj", "{BE477BF3-6A3C-4A83-9937-5D9975C183FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EJournalDAL", "EJournalDAL\EJournalDAL.csproj", "{F977A647-7148-4906-99EC-31E72F1D5328}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{F977A647-7148-4906-99EC-31E72F1D5328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F977A647-7148-4906-99EC-31E72F1D5328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F977A647-7148-4906-99EC-31E72F1D5328}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE477BF3-6A3C-4A83-9937-5D9975C183FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE477BF3-6A3C-4A83-9937-5D9975C183FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE477BF3-6A3C-4A83-9937-5D9975C183FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE477BF3-6A3C-4A83-9937-5D9975C183FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

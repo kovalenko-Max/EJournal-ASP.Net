@@ -45,8 +45,8 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpPost("updateStudentsInGroup")]
-        public async Task<bool> UpdateStudentsInGroup([FromQuery] Group group, 
-            [FromBody] List<int> idsAddStudents, [FromBody] List<int> idsDeleteStudents)
+        public async Task<bool> UpdateStudentsInGroup([FromBody] Group group, 
+            [FromQuery] List<int> idsAddStudents, [FromQuery] List<int> idsDeleteStudents)
         {
             return await _groupService.UpdateStudentsInGroup( group, idsAddStudents, idsDeleteStudents);
         }

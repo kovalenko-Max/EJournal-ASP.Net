@@ -3,6 +3,6 @@
 	,@CommentType nvarchar(100)
 AS
 UPDATE [EJournal].[Comments]
-SET Comment = @Comments
+SET [CommentText] = @Comments
 	,CommentType = @CommentType
 WHERE Id = @Id
