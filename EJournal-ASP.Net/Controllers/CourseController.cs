@@ -26,7 +26,7 @@ namespace EJournal_ASP.Net.Controllers
             return await _courseService.GetAll();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IEnumerable<Course>> GetCourseByIdAsync(int id)
         {
             return await _courseService.GetById(id);

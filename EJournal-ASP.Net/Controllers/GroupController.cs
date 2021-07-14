@@ -26,7 +26,7 @@ namespace EJournal_ASP.Net.Controllers
             return await _groupService.GetAllGroups();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IEnumerable<Group>> GetGroupByIdAsync(int idGroup)
         {
             return await _groupService.GetGroupById(idGroup);

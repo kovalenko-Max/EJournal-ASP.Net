@@ -20,14 +20,20 @@ namespace EJournal_ASP.Net.Controllers
             _logger = logger;
         }
 
-        [HttpGet("idStudent")]
+        [HttpGet("idStudent/{id}")]
         public async Task<IEnumerable<Comment>> GetCommentsByStudentIdAsync(int idStudent)
+        {
+            return await _commentService.GetCommentsByStudentId(idStudent);
+        }
+        
+        [HttpGet("id/{id}")]
+        public async Task<IEnumerable<Comment>> GetCommentsByIdAsync(int idStudent)
         {
             return await _commentService.GetCommentsByStudentId(idStudent);
         }
 
         [HttpPost]
-        public async Task<bool> AddAsync(Comment comment, int idStudent)
+        public async Task<int> AddAsync(Comment comment, int idStudent)
         {
             return await _commentService.AddComment(comment, idStudent);
         }

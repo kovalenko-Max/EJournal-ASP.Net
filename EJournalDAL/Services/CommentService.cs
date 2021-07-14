@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DataModels;
 using EJournalDAL.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static DataModels.EJournalDBDBStoredProcedures;
 
@@ -18,11 +20,11 @@ namespace EJournalDAL.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AddComment(Comment comment, int studentId)
+        public async Task<int> AddComment(Comment comment, int studentId)
         {
-            int result = _dbConnection.AddComment(studentId, comment.CommentText, comment.CommentType);
+            var result = _dbConnection.AddComment(studentId, comment.CommentText, comment.CommentType).FirstOrDefault();
 
-            return result > 0;
+            return result.Id;
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByStudentId(int studentId)
