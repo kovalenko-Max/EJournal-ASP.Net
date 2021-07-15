@@ -1,17 +1,19 @@
+using DataModels;
+using EJournal_ASP.Net.Validators;
+using EJournalDAL.MapperProfiles;
+using EJournalDAL.Services;
+using FluentValidation.AspNetCore;
+using LinqToDB.AspNet;
+using LinqToDB.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using LinqToDB.AspNet;
-using LinqToDB.Configuration;
-using System.Reflection;
-using EJournalDAL.Services;
-using DataModels;
-using EJournalDAL.MapperProfiles;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
+using System.Reflection;
 
 namespace EJournal_ASP.Net
 {
@@ -25,6 +27,7 @@ namespace EJournal_ASP.Net
         }
 
         public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -60,6 +63,8 @@ namespace EJournal_ASP.Net
                 loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                 loggingBuilder.AddNLog(_configuration);
             });
+
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CommentValidator>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
