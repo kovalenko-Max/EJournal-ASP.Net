@@ -7,6 +7,7 @@ using LinqToDB.AspNet;
 using LinqToDB.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,12 +15,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System.Reflection;
-using EJournalDAL.Services;
-using DataModels;
-using EJournalDAL.MapperProfiles;
-using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
-using System.Configuration;
 
 namespace EJournal_ASP.Net
 {
@@ -43,6 +38,7 @@ namespace EJournal_ASP.Net
                 Assembly.GetAssembly(typeof(CourseMappingProfile)) //api
             };
 
+            services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddAutoMapper(assemblies);
             services.AddControllers();
             services.AddScoped<ICourseService, CourseService>();
@@ -80,6 +76,13 @@ namespace EJournal_ASP.Net
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -87,12 +90,6 @@ namespace EJournal_ASP.Net
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EJournal_ASP.Net v1"));
             }
 
-            app.UseRouting();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
