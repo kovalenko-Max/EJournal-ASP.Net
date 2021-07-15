@@ -23,7 +23,7 @@ namespace DataModels
 	/// <summary>
 	/// Database       : EJournalDB
 	/// Data Source    : .
-	/// Server Version : 15.00.2080
+	/// Server Version : 15.00.2000
 	/// </summary>
 	public partial class EJournalDB : LinqToDB.Data.DataConnection
 	{

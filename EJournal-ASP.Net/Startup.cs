@@ -32,8 +32,7 @@ namespace EJournal_ASP.Net
         {
             var assemblies = new[]
             {
-                Assembly.GetAssembly(typeof(CourseMappingProfile)), //api
-                Assembly.GetAssembly(typeof(ExerciseMappingProfile)) //api
+                Assembly.GetAssembly(typeof(CourseMappingProfile)) //api
             };
 
             services.AddAutoMapper(assemblies);
