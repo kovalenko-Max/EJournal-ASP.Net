@@ -2,6 +2,7 @@
 using EJournalDAL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +30,32 @@ namespace EJournal_ASP.Net.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<Group>> GetGroupByIdAsync(int idGroup)
         {
-            return await _groupService.GetGroupById(idGroup);
+            IEnumerable<Group> result = null;
+
+            try
+            {
+                if (idGroup > 0)
+                {
+                    _logger.LogInformation("GetGroupByIdAsync() was called");
+
+                    result = await _groupService.GetGroupById(idGroup);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({idGroup}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result != null)
+            {
+                _logger.LogInformation($"Group ({idGroup}) were received");
+            }
+
+            return result;
         }
 
         [HttpPost]
@@ -60,7 +86,32 @@ namespace EJournal_ASP.Net.Controllers
         [HttpDelete]
         public async Task<bool> DeleteAsync(int idGroup)
         {
-            return await _groupService.DeleteGroup(idGroup);
+            bool result = false;
+
+            try
+            {
+                if (idGroup > 0)
+                {
+                    _logger.LogInformation("DeleteAsync() was called");
+
+                    result = await _groupService.DeleteGroup(idGroup);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({idGroup}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result)
+            {
+                _logger.LogInformation($"Group ({idGroup}) was deleted");
+            }
+
+            return result;
         }
     }
 }
