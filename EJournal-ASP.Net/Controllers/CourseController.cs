@@ -2,6 +2,7 @@
 using EJournalDAL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -29,7 +30,32 @@ namespace EJournal_ASP.Net.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<Course>> GetCourseByIdAsync(int id)
         {
-            return await _courseService.GetById(id);
+            IEnumerable<Course> result = null;
+
+            try
+            {
+                if (id > 0)
+                {
+                    _logger.LogInformation("GetCourseByIdAsync() was called");
+
+                    result = await _courseService.GetById(id);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({id}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result != null)
+            {
+                _logger.LogInformation($"Course ({id}) were received");
+            }
+
+            return result;
         }
 
         [HttpPost]
@@ -47,7 +73,32 @@ namespace EJournal_ASP.Net.Controllers
         [HttpDelete]
         public async Task<bool> DeleteAsync(int id)
         {
-            return await _courseService.Delete(id);
+            bool result = false;
+
+            try
+            {
+                if (id > 0)
+                {
+                    _logger.LogInformation("DeleteAsync() was called");
+
+                    result = await _courseService.Delete(id);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({id}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result)
+            {
+                _logger.LogInformation($"Course ({id}) was deleted");
+            }
+
+            return result;
         }
     }
 }

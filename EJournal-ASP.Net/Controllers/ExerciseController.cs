@@ -2,6 +2,7 @@
 using EJournalDAL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -31,25 +32,80 @@ namespace EJournal_ASP.Net.Controllers
         [HttpGet]
         public async Task<IEnumerable<Exercise>> GetExcercisesByGroupIdAsync(int idGroup)
         {
-            return await _exerciseService.GetExcercisesByGroupId(idGroup);
+            IEnumerable<Exercise> result = null;
+
+            try
+            {
+                if (idGroup > 0)
+                {
+                    _logger.LogInformation("GetExcercisesByGroupIdAsync() was called");
+
+                    return await _exerciseService.GetExcercisesByGroupId(idGroup);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({idGroup}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result != null)
+            {
+                _logger.LogInformation($"Excercises of group by Id ({idGroup}) were received");
+            }
+
+            return result;
         }
 
         [HttpPost]
         public async Task<int?> AddAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
         {
+            _logger.LogInformation("AddAsync() was called");
+
             return await _exerciseService.AddExcerciseToGroup(exercise, dt);
         }
 
         [HttpPut]
         public async Task<bool> UpdateStudentsExcerciseAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
         {
+            _logger.LogInformation("UpdateStudentsExcerciseAsync() was called");
+
             return await _exerciseService.UpdateStudentsExcercise(exercise, dt);
         }
 
         [HttpDelete]
         public async Task<bool> DeleteAsync(int id)
         {
-            return await _exerciseService.DeleteExcercise(id);
+
+            bool result = false;
+
+            try
+            {
+                if (id > 0)
+                {
+                    _logger.LogInformation("DeleteAsync() was called");
+
+                    return await _exerciseService.DeleteExcercise(id);
+                }
+                else
+                {
+                    _logger.LogInformation($"Id ({ id}) is Invalid");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
+            if (result)
+            {
+                _logger.LogInformation($"Exercise ({id}) was deleted");
+            }
+
+            return result;
         }
     }
 }
