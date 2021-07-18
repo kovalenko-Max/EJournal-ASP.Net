@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -34,6 +34,9 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="linq2db.SqlServer" Version="3.4.1" />
+    <PackageReference Include="linq2db.SqlServer" Version="3.4.2" />
+    <PackageReference Include="Microsoft.Build" Version="16.10.0" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="16.10.0" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
