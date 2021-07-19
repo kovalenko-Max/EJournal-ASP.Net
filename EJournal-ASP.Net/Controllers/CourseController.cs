@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace EJournal_ASP.Net.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("[controller]")]
     public class CourseController : ControllerBase
     {

@@ -30,12 +30,11 @@ namespace EJournal_ASP.Net
         public IConfiguration Configuration { get; }
         
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = new[]
             {
-                Assembly.GetAssembly(typeof(CourseMappingProfile)) //api
+                Assembly.GetAssembly(typeof(CourseMappingProfile))
             };
 
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
@@ -47,7 +46,6 @@ namespace EJournal_ASP.Net
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IExerciseService, ExerciseService>();
             services.AddScoped<ILessonService, LessonService>();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EJournal_ASP.Net", Version = "v1" });
@@ -71,9 +69,13 @@ namespace EJournal_ASP.Net
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ExerciseValidator>());
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CourseValidator>());
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<GroupValidator>());
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
@@ -89,7 +91,6 @@ namespace EJournal_ASP.Net
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EJournal_ASP.Net v1"));
             }
-
         }
     }
 }
