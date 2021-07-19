@@ -32,13 +32,39 @@ namespace EJournal_ASP.Net.Tests
         public void GetAllAsync_WhenValidValuePassed_ShouldReturnAllGroupsAsyncTests(int groupsCount)
         {
             List<Group> groups = new List<Group>();
+            List<Course> courses = new List<Course>();
+            List<Student> students = new List<Student>();
 
             for (int i = 1; i <= groupsCount; ++i)
             {
-                groups.Add(Mock.GetGroupMock(i));
+                Course course = Mock.GetCourseMock(i);
+                courses.Add(course);
+
+                List<Student> thisGroupStudents = new List<Student>();
+                int idStudent = 1;
+                for (int j = 1; j < groupsCount; ++j)
+                {
+                    Student student = Mock.GetStudentMock(idStudent);
+                    thisGroupStudents.Add(student);
+                    students.Add(student);
+                    ++idStudent;
+                }
+
+                Group group = Mock.GetGroupMock(i, course);
+                group.Students = thisGroupStudents;
+
+                groups.Add(group);
             }
 
+            _sharedDatabaseFixture.FillCoursesTable(courses);
+            _sharedDatabaseFixture.FillStudentsTable(students);
             _sharedDatabaseFixture.FillGroupsTable(groups);
+            
+            foreach(var group in groups)
+            {
+                group.StudentsCount = group.Students.Count;
+                group.Students = null;
+            }
 
             string expected = _serializationHelper.GroupJsonSerialize(groups);
             var queryResult = _client.GetAsync("/Group").Result;

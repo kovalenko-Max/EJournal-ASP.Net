@@ -22,7 +22,7 @@ namespace EJournalDAL.Services
 
         public async Task<int> AddComment(Comment comment, int studentId)
         {
-            var result = _dbConnection.AddComment(studentId, comment.CommentText, comment.CommentType).FirstOrDefault();
+            var result =_dbConnection.AddComment(studentId, comment.CommentText, comment.CommentType).FirstOrDefault();
 
             return result.Id;
         }

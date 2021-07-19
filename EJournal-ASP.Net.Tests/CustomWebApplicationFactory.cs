@@ -22,7 +22,7 @@ namespace EJournal_ASP.Net.Tests
 
                 services.AddLinqToDbContext<EJournalDB>((provider, options) =>
                 {
-                    options.UseSqlServer(@$"Server=LAPTOP-E2SFBO2T;Database=EJournalDB.Test;ConnectRetryCount=0;Integrated Security=True");
+                    options.UseSqlServer(@$"Server=.\SQLEXPRESS;Database=EJournalDB.Test;ConnectRetryCount=0;Integrated Security=True");
                 });
             });
         }

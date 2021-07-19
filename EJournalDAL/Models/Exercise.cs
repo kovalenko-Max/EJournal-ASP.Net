@@ -10,11 +10,13 @@ namespace EJournalDAL.Models
         public DateTime? Deadline { get; set; }
         public int? IdGroup { get; set; }
         public ExcerciseType ExerciseType { get; set; }
-        public StudentMark StudentMarks { get; set; }
+        public List<StudentMark> StudentMarks { get; set; }
 
         public Exercise()
         {
-
+            Description = string.Empty;
+            ExerciseType = (ExcerciseType)0;
+            StudentMarks = new List<StudentMark>();
         }
 
         public Exercise(Group group)
@@ -22,7 +24,7 @@ namespace EJournalDAL.Models
             Description = string.Empty;
             IdGroup = group.Id;
             ExerciseType = (ExcerciseType)0;
-            StudentMarks = new StudentMark();
+            StudentMarks = new List<StudentMark>();
         }
     }
 }

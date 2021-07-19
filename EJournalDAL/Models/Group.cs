@@ -63,7 +63,10 @@ namespace EJournalDAL.Models
             set
             {
                 _students = value;
-                StudentsCount = _students.Count;
+                if (Students != null)
+                {
+                    StudentsCount = _students.Count;
+                }
                 GroupChanged?.Invoke(this, new EventArgs());
             }
         }

@@ -5,6 +5,7 @@ using LinqToDB.Configuration;
 using EJournalDAL.Models;
 using LinqToDB;
 using System.Collections.Generic;
+using System.Data;
 
 namespace EJournal_ASP.Net.Tests
 {
@@ -17,7 +18,7 @@ namespace EJournal_ASP.Net.Tests
 
         public SharedDatabaseFixture()
         {
-            _connectionString = @$"Server=LAPTOP-E2SFBO2T;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
+            _connectionString = @$"Server=.\SQLEXPRESS;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
 
             PublishTestDB();
             CreateContext();
@@ -32,7 +33,7 @@ namespace EJournal_ASP.Net.Tests
 
             ProcessStartInfo procStartInfo = new ProcessStartInfo();
             procStartInfo.FileName = projectPath + @"\sqlpackage\sqlpackage.exe";
-            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:LAPTOP-E2SFBO2T /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
+            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:.\SQLEXPRESS /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
 
             using (Process process = new Process())
             {
@@ -54,23 +55,40 @@ namespace EJournal_ASP.Net.Tests
 
         public void FillCoursesTable(List<Course> courses)
         {
-            foreach(var course in courses)
+            foreach (var course in courses)
             {
                 DataConnection.Courses
                 .Value(c => c.Name, course.Name)
                 .Insert();
             }
         }
-        
-        public void FillCommentsTable(List<Comment> comments)
+
+        public void FillCommentsTable(Student student, List<Comment> comments)
         {
-            foreach(var comment in comments)
+            foreach (var comment in comments)
             {
                 DataConnection.Comments
                 .Value(c => c.CommentText, comment.CommentText)
                 .Value(c => c.CommentType, comment.CommentType)
-                .Insert();
+                .InsertAsync();
+
+                DataConnection.StudentsComments
+                    .Value(sc => sc.IdComment, comment.Id)
+                    .Value(sc => sc.IdStudent, student.Id)
+                    .InsertAsync();
             }
+
+            DataConnection.Students
+                .Value(s => s.Name, student.Name)
+                .Value(s => s.Surname, student.Surname)
+                .Value(s => s.Email, student.Email)
+                .Value(s => s.Phone, student.Phone)
+                .Value(s => s.Git, student.Git)
+                .Value(s => s.City, student.City)
+                .Value(s => s.TeacherAssessment, student.TeacherAssessment)
+                .Value(s => s.Ranking, student.Ranking)
+                .Value(s => s.AgreementNumber, student.AgreementNumber)
+                .InsertAsync();
         }
 
         public void FillLessonsTable(List<Lesson> lessons)
@@ -88,11 +106,16 @@ namespace EJournal_ASP.Net.Tests
         {
             foreach (var group in groups)
             {
-                DataConnection.Groups
-                .Value(g => g.Name, group.Name)
-                .Value(g => g.IdCourse, group.Course.Id)
-                .Value(g => g.IsFinish, group.IsFinish)
-                .Insert();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("IdGroup");
+                dt.Columns.Add("IdStudents");
+
+                foreach (var s in group.Students)
+                {
+                    dt.Rows.Add(new object[] { null, s.Id });
+                }
+
+                DataConnection.AddGroupWithStudents(group.Name, group.Course.Id, dt);
             }
         }
 
@@ -116,13 +139,16 @@ namespace EJournal_ASP.Net.Tests
 
         public void FillExercisesTable(List<Exercise> exercises)
         {
-            foreach (var exercise in exercises)
-            {
-                DataConnection.Exercises
-                .Value(e => e.Description, exercise.Description)
-                .Value(e => e.IdGroup, exercise.IdGroup)
-                .Insert();
-            }
+
+            //foreach (var exercise in exercises)
+            //{
+            //    DataConnection.Exercises
+            //    .Value(e => e.Description, exercise.Description)
+            //    .Value(e => e.IdGroup, exercise.IdGroup)
+            //    .Value(e => e.Deadline, exercise.Deadline)
+            //    .Value(e => e.ExerciseType, exercise.ExerciseType.ToString())
+            //    .InsertAsync();
+            //}
         }
     }
 }

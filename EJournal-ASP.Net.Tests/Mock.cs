@@ -1,4 +1,5 @@
 ﻿using EJournalDAL.Models;
+using System.Collections.Generic;
 
 namespace EJournal_ASP.Net.Tests
 {
@@ -35,7 +36,15 @@ namespace EJournal_ASP.Net.Tests
             return new Group()
             {
                 Id = idGroup,
-                Name = $"Name {idGroup}"
+                Name = $"Name {idGroup}",
+                Course = new Course($"Course {idGroup}")
+            };
+        }
+        public static Group GetGroupMock(int idGroup, Course course)
+        {
+            return new Group($"Name {idGroup}", course)
+            { 
+                Id = idGroup,
             };
         }
 
@@ -56,14 +65,16 @@ namespace EJournal_ASP.Net.Tests
             };
         }
 
-        public static Exercise GetExerciseMock(int idExercise)
+        public static Exercise GetExerciseMock(int idExercise, Group group, List<Student> students)
         {
-            return new Exercise()
+            Exercise exercise = new Exercise(group);
+
+            foreach(var student in students)
             {
-                Id = idExercise,
-                Description = $"Description {idExercise}",
-                IdGroup = idExercise
-            };
+                exercise.StudentMarks.Add(new StudentMark(student, 2 * idExercise));
+            }
+
+            return exercise;
         }
     }
 }

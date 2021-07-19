@@ -33,15 +33,16 @@ namespace EJournal_ASP.Net.Tests
         {
             List<Comment> comments = new List<Comment>();
 
+            Student student = Mock.GetStudentMock(idStudent);
+
             for (int i = 1; i <= commentsCount; ++i)
             {
                 comments.Add(Mock.GetCommentMock(i));
             }
 
-            _sharedDatabaseFixture.FillCommentsTable(comments);
-
-            List<Comment> temp = new List<Comment>() { comments[idStudent - 1] };
-            string expected = _serializationHelper.CommentJsonSerialize(temp);
+            _sharedDatabaseFixture.FillCommentsTable(student, comments);
+            
+            string expected = _serializationHelper.CommentJsonSerialize(comments);
             var queryResult = _client.GetAsync($"/byId/{idStudent}").Result;
             string actual = queryResult.Content.ReadAsStringAsync().Result;
 

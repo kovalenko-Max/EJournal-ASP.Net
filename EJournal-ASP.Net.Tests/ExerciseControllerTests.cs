@@ -31,17 +31,26 @@ namespace EJournal_ASP.Net.Tests
         [TestCase(3, 2)]
         public void GetExercisesByGroupIdAsync_WhenValidValuePassed_ShouldReturnExerciseByIdGroupAsyncTests(int exercisesCount, int idGroup)
         {
+            Group group = Mock.GetGroupMock(idGroup);
             List<Exercise> excercises = new List<Exercise>();
+            List<Student> students = new List<Student>();
 
             for (int i = 1; i <= exercisesCount; ++i)
             {
-                excercises.Add(Mock.GetExerciseMock(i));
+                students.Add(Mock.GetStudentMock(i));
             }
 
+            for (int i = 1; i <= exercisesCount; ++i)
+            {
+                excercises.Add(Mock.GetExerciseMock(i, group, students));
+                excercises[i - 1].IdGroup = group.Id;
+            }
+
+            _sharedDatabaseFixture.FillStudentsTable(students);
+            _sharedDatabaseFixture.FillGroupsTable(new List<Group>() { group });
             _sharedDatabaseFixture.FillExercisesTable(excercises);
 
-            List<Exercise> temp = new List<Exercise>() { excercises[idGroup - 1] };
-            string expected = _serializationHelper.ExerciseJsonSerialize(temp);
+            string expected = _serializationHelper.ExerciseJsonSerialize(excercises);
             var queryResult = _client.GetAsync($"/Exercise/idGroup/{idGroup}").Result;
             string actual = queryResult.Content.ReadAsStringAsync().Result;
 
