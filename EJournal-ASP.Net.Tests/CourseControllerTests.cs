@@ -1,15 +1,8 @@
 using EJournalDAL.Models;
-using NUnit.Framework;
-using LinqToDB.Data;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using RestSharp;
-using RestSharp.Authenticators;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace EJournal_ASP.Net.Tests
 {
@@ -36,9 +29,10 @@ namespace EJournal_ASP.Net.Tests
         }
 
         [TestCase(3)]
-        public void GetAllAsync_When_ShouldReturnAllCoursesAsync(int coursesCount)
+        public void GetAllAsync_WhenValidValuePassed_ShouldReturnAllCoursesAsyncTests(int coursesCount)
         {
             List<Course> courses = new List<Course>();
+
             for (int i = 1; i <= coursesCount; ++i)
             {
                 courses.Add(Mock.GetCourseMock(i));
@@ -52,5 +46,47 @@ namespace EJournal_ASP.Net.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestCase(3, 2)]
+        public void GetCourseByIdAsync_WhenValidValuePassed_ShouldReturnCourseByIdAsyncTests(int coursesCount, int id)
+        {
+            List<Course> courses = new List<Course>();
+
+            for (int i = 1; i <= coursesCount; ++i)
+            {
+                courses.Add(Mock.GetCourseMock(i));
+            }
+
+            _sharedDatabaseFixture.FillCoursesTable(courses);
+
+            List<Course> temp = new List<Course> (){courses[id - 1]};
+            string expected = _serializationHelper.CourseJsonSerialize(temp);
+            var queryResult = _client.GetAsync($"/Course/{id}").Result;
+            string actual = queryResult.Content.ReadAsStringAsync().Result;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        //[TestCase(3, new Course() { Name = "C#" })]
+        //public void AddAsync_WhenValidValuePassed_ShouldAddCourseAsyncTests(int coursesCount, Course course)
+        //{
+        //    List<Course> courses = new List<Course>();
+
+        //    for (int i = 1; i <= coursesCount; ++i)
+        //    {
+        //        courses.Add(Mock.GetCourseMock(i));
+        //    }
+
+        //    courses.Add(course);
+        //    _sharedDatabaseFixture.FillCoursesTable(courses);
+
+        //    string expected = _serializationHelper.CourseJsonSerialize(courses);
+        //    var queryResult = _client.PostAsync("/Course").Result;
+        //    string actual = queryResult.Content.ReadAsStringAsync().Result;
+
+        //    Assert.AreEqual(expected, actual);
+        //}
+
+
     }
 }

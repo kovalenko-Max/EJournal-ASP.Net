@@ -17,7 +17,7 @@ namespace EJournal_ASP.Net.Tests
 
         public SharedDatabaseFixture()
         {
-            _connectionString = @$"Server=.\SQLEXPRESS;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
+            _connectionString = @$"Server=LAPTOP-E2SFBO2T;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
 
             PublishTestDB();
             CreateContext();
@@ -32,7 +32,7 @@ namespace EJournal_ASP.Net.Tests
 
             ProcessStartInfo procStartInfo = new ProcessStartInfo();
             procStartInfo.FileName = projectPath + @"\sqlpackage\sqlpackage.exe";
-            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:.\SQLEXPRESS /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
+            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:LAPTOP-E2SFBO2T /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
 
             using (Process process = new Process())
             {
@@ -58,6 +58,69 @@ namespace EJournal_ASP.Net.Tests
             {
                 DataConnection.Courses
                 .Value(c => c.Name, course.Name)
+                .Insert();
+            }
+        }
+        
+        public void FillCommentsTable(List<Comment> comments)
+        {
+            foreach(var comment in comments)
+            {
+                DataConnection.Comments
+                .Value(c => c.CommentText, comment.CommentText)
+                .Value(c => c.CommentType, comment.CommentType)
+                .Insert();
+            }
+        }
+
+        public void FillLessonsTable(List<Lesson> lessons)
+        {
+            foreach (var lesson in lessons)
+            {
+                DataConnection.Lessons
+                .Value(l => l.Topic, lesson.Topic)
+                .Value(l => l.IdGroup, lesson.IdGroup)
+                .Insert();
+            }
+        }
+
+        public void FillGroupsTable(List<Group> groups)
+        {
+            foreach (var group in groups)
+            {
+                DataConnection.Groups
+                .Value(g => g.Name, group.Name)
+                .Value(g => g.IdCourse, group.Course.Id)
+                .Value(g => g.IsFinish, group.IsFinish)
+                .Insert();
+            }
+        }
+
+        public void FillStudentsTable(List<Student> students)
+        {
+            foreach (var student in students)
+            {
+                DataConnection.Students
+                .Value(s => s.Name, student.Name)
+                .Value(s => s.Surname, student.Surname)
+                .Value(s => s.Email, student.Email)
+                .Value(s => s.Phone, student.Phone)
+                .Value(s => s.Git, student.Git)
+                .Value(s => s.City, student.City)
+                .Value(s => s.TeacherAssessment, student.TeacherAssessment)
+                .Value(s => s.Ranking, student.Ranking)
+                .Value(s => s.AgreementNumber, student.AgreementNumber)
+                .Insert();
+            }
+        }
+
+        public void FillExercisesTable(List<Exercise> exercises)
+        {
+            foreach (var exercise in exercises)
+            {
+                DataConnection.Exercises
+                .Value(e => e.Description, exercise.Description)
+                .Value(e => e.IdGroup, exercise.IdGroup)
                 .Insert();
             }
         }

@@ -21,7 +21,7 @@ namespace EJournal_ASP.Net.Controllers
             _logger = logger;
         }
 
-        [HttpGet("idStudent/{id}")]
+        [HttpGet("/byId/{idStudent}")]
         public async Task<IEnumerable<Comment>> GetCommentsByStudentIdAsync(int idStudent)
         {
             IEnumerable<Comment> result = null;
@@ -52,11 +52,11 @@ namespace EJournal_ASP.Net.Controllers
             return result;
         }
         
-        [HttpGet("id/{id}")]
-        public async Task<IEnumerable<Comment>> GetCommentsByIdAsync(int idStudent)
-        {
-            return await _commentService.GetCommentsByStudentId(idStudent);
-        }
+        //[HttpGet("id/{id}")]
+        //public async Task<IEnumerable<Comment>> GetCommentsByIdAsync(int idStudent)
+        //{
+        //    return await _commentService.GetCommentsByStudentId(idStudent);
+        //}
 
         [HttpPost]
         public async Task<int> AddAsync(Comment comment, int idStudent)
