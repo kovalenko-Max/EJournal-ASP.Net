@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using static DataModels.EJournalDBDBStoredProcedures;
+using static DataModels.EJournalDBStoredProcedures;
 
 namespace EJournalDAL.Services
 {

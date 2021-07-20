@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EJournalDAL.Models;
-using static DataModels.EJournalDBDBStoredProcedures;
+using static DataModels.EJournalDBStoredProcedures;
 
 namespace EJournalDAL.MapperProfiles
 {

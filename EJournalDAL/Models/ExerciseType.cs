@@ -1,6 +1,6 @@
 ﻿namespace EJournalDAL.Models
 {
-    public enum ExcerciseType
+    public enum ExerciseType
     {
         HomeWork = 0,
         Test = 1

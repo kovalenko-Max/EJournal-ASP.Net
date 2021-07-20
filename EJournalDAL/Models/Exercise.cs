@@ -9,8 +9,8 @@ namespace EJournalDAL.Models
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
         public int? IdGroup { get; set; }
-        public ExcerciseType ExerciseType { get; set; }
-        public StudentMark StudentMarks { get; set; }
+        public ExerciseType ExerciseType { get; set; }
+        public List<StudentMark> StudentMarks { get; set; }
 
         public Exercise()
         {
@@ -21,8 +21,8 @@ namespace EJournalDAL.Models
         {
             Description = string.Empty;
             IdGroup = group.Id;
-            ExerciseType = (ExcerciseType)0;
-            StudentMarks = new StudentMark();
+            ExerciseType = (ExerciseType)0;
+            StudentMarks = new List<StudentMark>();
         }
     }
 }

@@ -4,7 +4,7 @@ using EJournalDAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static DataModels.EJournalDBDBStoredProcedures;
+using static DataModels.EJournalDBStoredProcedures;
 
 namespace EJournalDAL.Services
 {

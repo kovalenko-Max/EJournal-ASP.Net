@@ -20,5 +20,12 @@
             Student = student;
             Point = point;
         }
+
+        public StudentMark(int studentId, string name, string surname, int studentPoint)
+        {
+            Student = new Student(name, surname);
+            Student.Id = studentId;
+            Point = studentPoint;
+        }
     }
 }

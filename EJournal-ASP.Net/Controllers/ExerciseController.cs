@@ -61,19 +61,19 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpPost]
-        public async Task<int?> AddAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
+        public async Task<int?> AddAsync(Exercise exercise)
         {
             _logger.LogInformation("AddAsync() was called");
 
-            return await _exerciseService.AddExcerciseToGroup(exercise, dt);
+            return await _exerciseService.AddExcerciseToGroup(exercise);
         }
 
         [HttpPut]
-        public async Task<bool> UpdateStudentsExcerciseAsync([FromQuery] Exercise exercise, [FromBody] DataTable dt)
+        public async Task<bool> UpdateStudentsExcerciseAsync(Exercise exercise)
         {
             _logger.LogInformation("UpdateStudentsExcerciseAsync() was called");
 
-            return await _exerciseService.UpdateStudentsExcercise(exercise, dt);
+            return await _exerciseService.UpdateStudentsExcercise(exercise);
         }
 
         [HttpDelete]
