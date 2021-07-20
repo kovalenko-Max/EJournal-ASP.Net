@@ -30,7 +30,7 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet("{idGroup}")]
-        public async Task<IEnumerable<Lesson>> GetLessonByIdAsync(int idGroup)
+        public async Task<IEnumerable<Lesson>> GetLessonByIdGroupAsync(int idGroup)
         {
             IEnumerable<Lesson> result = null;
 

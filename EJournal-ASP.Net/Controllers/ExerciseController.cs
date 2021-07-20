@@ -30,6 +30,7 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
+        [Route("idGroup/{id}")]
         public async Task<IEnumerable<Exercise>> GetExcercisesByGroupIdAsync(int idGroup)
         {
             IEnumerable<Exercise> result = null;

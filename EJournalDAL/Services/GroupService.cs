@@ -78,11 +78,13 @@ namespace EJournalDAL.Services
             return _mapper.Map<IEnumerable<Group>>(groups);
         }
 
-        public async Task<IEnumerable<Group>> GetGroupById(int groupId)
+        public async Task<Group> GetGroupById(int groupId)
         {
-            var idGroup = _dbConnection.GetGroup(groupId);
+            var getGroupResult = _dbConnection.GetGroup(groupId).FirstOrDefault();
 
-            return _mapper.Map<IEnumerable<Group>>(idGroup);
+            var group = _mapper.Map<Group>(getGroupResult);
+
+            return group;
         }
 
         public async Task<bool> UpdateGroup(Group group)
