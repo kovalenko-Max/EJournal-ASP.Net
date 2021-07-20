@@ -1,0 +1,6 @@
+﻿CREATE TABLE [EJournal].[UserRoles]
+(
+	[Id] INT IDENTITY (1, 1) NOT NULL PRIMARY KEY, 
+    [Username] NVARCHAR(50) NOT NULL, 
+    [Role] NVARCHAR(50) NOT NULL
+)

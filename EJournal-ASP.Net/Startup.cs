@@ -37,15 +37,20 @@ namespace EJournal_ASP.Net
                 Assembly.GetAssembly(typeof(CourseMappingProfile))
             };
 
+            services.AddRoleAuthorization<RoleProvider>();
+
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddAutoMapper(assemblies);
             services.AddControllers();
+
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IExerciseService, ExerciseService>();
             services.AddScoped<ILessonService, LessonService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EJournal_ASP.Net", Version = "v1" });
@@ -79,6 +84,7 @@ namespace EJournal_ASP.Net
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
