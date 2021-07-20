@@ -165,6 +165,7 @@
     <Build Include="dbo\Stored Procedures\Groups\UpdateGroupStudents.sql" />
     <Build Include="dbo\Tables\UserRoles.sql" />
     <Build Include="dbo\Stored Procedures\UserRole\GetAllUserRoles.sql" />
+    <Build Include="dbo\Stored Procedures\ExercisesStudents\GetAllStudentMark.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EJournalDB.refactorlog" />

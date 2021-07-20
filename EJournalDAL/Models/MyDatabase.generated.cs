@@ -23,7 +23,7 @@ namespace DataModels
 	/// <summary>
 	/// Database       : EJournalDB
 	/// Data Source    : .
-	/// Server Version : 15.00.2000
+	/// Server Version : 15.00.2080
 	/// </summary>
 	public partial class EJournalDB : LinqToDB.Data.DataConnection
 	{
@@ -218,7 +218,7 @@ namespace DataModels
 		[Column,     NotNull ] public string Role     { get; set; } // nvarchar(50)
 	}
 
-	public static partial class EJournalDBDBStoredProcedures
+	public static partial class EJournalDBStoredProcedures
 	{
 		#region AddComment
 
@@ -602,6 +602,15 @@ namespace DataModels
 			public int    Id          { get; set; }
 			public string Name        { get; set; }
 			public string Description { get; set; }
+		}
+
+		#endregion
+
+		#region GetAllStudentMark
+
+		public static IEnumerable<EJournal_StudentsExercis> GetAllStudentMark(this EJournalDB dataConnection)
+		{
+			return dataConnection.QueryProc<EJournal_StudentsExercis>("[EJournal].[GetAllStudentMark]");
 		}
 
 		#endregion
