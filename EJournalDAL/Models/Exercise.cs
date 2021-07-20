@@ -14,7 +14,9 @@ namespace EJournalDAL.Models
 
         public Exercise()
         {
-
+            Description = string.Empty;
+            ExerciseType = (ExerciseType)0;
+            StudentMarks = new List<StudentMark>();
         }
 
         public Exercise(Group group)

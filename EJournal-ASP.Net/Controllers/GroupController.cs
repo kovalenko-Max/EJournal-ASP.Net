@@ -28,21 +28,21 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IEnumerable<Group>> GetGroupByIdAsync(int idGroup)
+        public async Task<Group> GetGroupByIdAsync(int id)
         {
-            IEnumerable<Group> result = null;
+            Group result = null;
 
             try
             {
-                if (idGroup > 0)
+                if (id > 0)
                 {
                     _logger.LogInformation("GetGroupByIdAsync() was called");
 
-                    result = await _groupService.GetGroupById(idGroup);
+                    result = await _groupService.GetGroupById(id);
                 }
                 else
                 {
-                    _logger.LogInformation($"Id ({idGroup}) is Invalid");
+                    _logger.LogInformation($"Id ({id}) is Invalid");
                 }
             }
             catch (Exception e)
@@ -52,7 +52,7 @@ namespace EJournal_ASP.Net.Controllers
 
             if (result != null)
             {
-                _logger.LogInformation($"Group ({idGroup}) were received");
+                _logger.LogInformation($"Group ({id}) were received");
             }
 
             return result;

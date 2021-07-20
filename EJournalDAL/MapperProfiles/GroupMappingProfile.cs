@@ -11,9 +11,10 @@ namespace EJournalDAL.MapperProfiles
             CreateMap<Group, GetAllGroupsResult>()
                 .ForPath(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForPath(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForPath(dest => dest.IdCourse, opt => opt.MapFrom(src => src))
+                .ForPath(dest => dest.IdCourse, opt => opt.MapFrom(src => src.Course.Id))
                 .ForPath(dest => dest.StudentsCount, opt => opt.MapFrom(src => src.StudentsCount))
                 .ForPath(dest => dest.IsFinish, opt => opt.MapFrom(src => src.IsFinish));
+
             CreateMap<Course, GetAllGroupsResult>()
                 .ForPath(dest => dest.IdCourse, opt => opt.MapFrom(src => src.Id))
                 .ForPath(dest => dest.NameCourse, opt => opt.MapFrom(src => src.Name));
@@ -42,7 +43,8 @@ namespace EJournalDAL.MapperProfiles
                 .ForPath(dest => dest.Course, opt => opt.MapFrom(src => src))
                 .ForPath(dest => dest.IsFinish, opt => opt.MapFrom(src => src.IsFinish));
             CreateMap<GetGroupResult, Course>()
-                .ForPath(dest => dest.Id, opt => opt.MapFrom(src => src.IdCourse));
+                .ForPath(dest => dest.Id, opt => opt.MapFrom(src => src.IdCourse))
+                .ForPath(dest => dest.Name, opt => opt.MapFrom(src => string.Empty));
         }
     }
 }

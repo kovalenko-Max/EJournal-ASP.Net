@@ -32,21 +32,21 @@ namespace EJournal_ASP.Net.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IEnumerable<Student>> GetStudentByIdAsync(int idStudent)
+        public async Task<IEnumerable<Student>> GetStudentByIdAsync(int id)
         {
             IEnumerable<Student> result = null;
 
             try
             {
-                if (idStudent > 0)
+                if (id > 0)
                 {
                     _logger.LogInformation("GetStudentByIdAsync() was called");
 
-                    return await _studentService.GetStudentById(idStudent);
+                    return await _studentService.GetStudentById(id);
                 }
                 else
                 {
-                    _logger.LogInformation($"Id ({idStudent}) is Invalid");
+                    _logger.LogInformation($"Id ({id}) is Invalid");
                 }
             }
             catch (Exception e)
@@ -56,7 +56,7 @@ namespace EJournal_ASP.Net.Controllers
 
             if (result != null)
             {
-                _logger.LogInformation($"Student by Id ({idStudent}) were received");
+                _logger.LogInformation($"Student by Id ({id}) were received");
             }
 
             return result;

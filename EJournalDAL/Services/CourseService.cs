@@ -37,6 +37,7 @@ namespace EJournalDAL.Services
         public async Task<int?> Add(string name)
         {
             var result = _dbConnection.AddCourse(name).FirstOrDefault();
+
             return result.Id;
         }
 

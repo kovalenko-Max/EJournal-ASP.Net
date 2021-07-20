@@ -7,7 +7,7 @@ namespace EJournalDAL.Services
     public interface IGroupService
     {
         Task<IEnumerable<Group>> GetAllGroups();
-        Task<IEnumerable<Group>> GetGroupById(int groupId);
+        Task<Group> GetGroupById(int groupId);
         Task<int?> AddGroup(Group group);
         Task<int> AddGroupWithStudents(Group group);
         Task<bool> UpdateStudentsInGroup(Group group, List<int> idsAddStudents, List<int> idsDeleteStudents);
