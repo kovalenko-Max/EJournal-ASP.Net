@@ -40,6 +40,7 @@ namespace DataModels
 		public ITable<EJournal_StudentsComment>     StudentsComments     { get { return this.GetTable<EJournal_StudentsComment>(); } }
 		public ITable<EJournal_StudentsExercis>     StudentsExercises    { get { return this.GetTable<EJournal_StudentsExercis>(); } }
 		public ITable<EJournal_StudetsProjectGroup> StudetsProjectGroups { get { return this.GetTable<EJournal_StudetsProjectGroup>(); } }
+		public ITable<EJournal_UserRole>            UserRoles            { get { return this.GetTable<EJournal_UserRole>(); } }
 
 		public EJournalDB()
 		{
@@ -207,6 +208,14 @@ namespace DataModels
 	{
 		[Column, NotNull] public int IdStudent      { get; set; } // int
 		[Column, NotNull] public int IdProjectGroup { get; set; } // int
+	}
+
+	[Table(Schema="EJournal", Name="UserRoles")]
+	public partial class EJournal_UserRole
+	{
+		[PrimaryKey, Identity] public int    Id       { get; set; } // int
+		[Column,     NotNull ] public string Username { get; set; } // nvarchar(50)
+		[Column,     NotNull ] public string Role     { get; set; } // nvarchar(50)
 	}
 
 	public static partial class EJournalDBDBStoredProcedures
@@ -616,6 +625,15 @@ namespace DataModels
 			public int    TeacherAssessment { get; set; }
 			public double Ranking           { get; set; }
 			public string AgreementNumber   { get; set; }
+		}
+
+		#endregion
+
+		#region GetAllUserRoles
+
+		public static IEnumerable<EJournal_UserRole> GetAllUserRoles(this EJournalDB dataConnection)
+		{
+			return dataConnection.QueryProc<EJournal_UserRole>("[EJournal].[GetAllUserRoles]");
 		}
 
 		#endregion
@@ -1333,6 +1351,12 @@ namespace DataModels
 		}
 
 		public static EJournal_Student Find(this ITable<EJournal_Student> table, int Id)
+		{
+			return table.FirstOrDefault(t =>
+				t.Id == Id);
+		}
+
+		public static EJournal_UserRole Find(this ITable<EJournal_UserRole> table, int Id)
 		{
 			return table.FirstOrDefault(t =>
 				t.Id == Id);

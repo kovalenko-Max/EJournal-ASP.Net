@@ -23,12 +23,14 @@ namespace EJournal_ASP.Net.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IEnumerable<Course>> GetAllAsync()
         {
             return await _courseService.GetAll();
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "BasicUser,Admin")]
         public async Task<IEnumerable<Course>> GetCourseByIdAsync(int id)
         {
             IEnumerable<Course> result = null;

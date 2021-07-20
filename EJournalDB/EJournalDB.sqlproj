@@ -74,6 +74,7 @@
     <Folder Include="dbo\Stored Procedures\ExercisesStudents" />
     <Folder Include="dbo\Stored Procedures\Comments" />
     <Folder Include="dbo\Stored Procedures\Search" />
+    <Folder Include="dbo\Stored Procedures\UserRole" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Students.sql" />
@@ -162,6 +163,8 @@
     <Build Include="dbo\Stored Procedures\Groups\AddStudentsInGroup.sql" />
     <Build Include="dbo\Stored Procedures\Groups\DeleteStudentsFromGroup.sql" />
     <Build Include="dbo\Stored Procedures\Groups\UpdateGroupStudents.sql" />
+    <Build Include="dbo\Tables\UserRoles.sql" />
+    <Build Include="dbo\Stored Procedures\UserRole\GetAllUserRoles.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EJournalDB.refactorlog" />
