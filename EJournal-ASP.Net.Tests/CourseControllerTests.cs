@@ -84,5 +84,20 @@ namespace EJournal_ASP.Net.Tests
 
             Assert.AreEqual(expectedId, actual);
         }
+
+        [TestCase(true, "C#")]
+        public void DeleteAsync_WhenValidValuePassed_ShouldDeleteCourseAsyncTests(bool expected, string courseName)
+        {
+            Course course = new Course(courseName);
+
+            var response = _client.PostAsJsonAsync<Course>("/Course", course).Result;
+            int courseId = Convert.ToInt32(response.Content.ReadAsStringAsync().Result);
+
+            var result = _client.DeleteAsync($"/Course/{courseId}").Result.Content.ReadAsStringAsync();
+
+            bool actual = Convert.ToBoolean(result.Result);
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

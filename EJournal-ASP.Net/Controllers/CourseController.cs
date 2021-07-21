@@ -73,7 +73,7 @@ namespace EJournal_ASP.Net.Controllers
             return await _courseService.Update(course);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<bool> DeleteAsync(int id)
         {
             bool result = false;
