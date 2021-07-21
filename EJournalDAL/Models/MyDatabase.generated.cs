@@ -714,7 +714,6 @@ namespace DataModels
 			public string    Name         { get; set; }
 			public string    Surname      { get; set; }
 			public int?      Point        { get; set; }
-			public int?      IdExercise   { get; set; }
 		}
 
 		#endregion

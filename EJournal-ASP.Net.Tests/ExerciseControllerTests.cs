@@ -1,4 +1,5 @@
-﻿using EJournalDAL.Models;
+﻿using EJournal_ASP.Net.Tests.Mocks;
+using EJournalDAL.Models;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -28,30 +29,37 @@ namespace EJournal_ASP.Net.Tests
             _serializationHelper = new SerializationHelper();
         }
 
-        [TestCase(3, 2)]
+        [TestCase(3, 1)]
         public void GetExercisesByGroupIdAsync_WhenValidValuePassed_ShouldReturnExerciseByIdGroupAsyncTests(int exercisesCount, int idGroup)
         {
             Group group = Mock.GetGroupMock(idGroup);
-            List<Exercise> excercises = new List<Exercise>();
             List<Student> students = new List<Student>();
+            group.Students = students;
 
             for (int i = 1; i <= exercisesCount; ++i)
             {
                 students.Add(Mock.GetStudentMock(i));
             }
 
-            for (int i = 1; i <= exercisesCount; ++i)
-            {
-                excercises.Add(Mock.GetExerciseMock(i, group, students));
-                excercises[i - 1].IdGroup = group.Id;
-            }
+            Exercise excercise = Mock.GetExerciseMock(1, group, group.Students);
 
             _sharedDatabaseFixture.FillStudentsTable(students);
             _sharedDatabaseFixture.FillGroupsTable(new List<Group>() { group });
-            _sharedDatabaseFixture.FillExercisesTable(excercises);
+            _sharedDatabaseFixture.FillExercisesTable(excercise);
 
-            string expected = _serializationHelper.ExerciseJsonSerialize(excercises);
-            var queryResult = _client.GetAsync($"/Exercise/idGroup/{idGroup}").Result;
+            foreach(var sm in excercise.StudentMarks)
+            {
+                sm.Student.Email = null;
+                sm.Student.Phone = null;
+                sm.Student.Git = null;
+                sm.Student.City = null;
+                sm.Student.TeacherAssessment = 0;
+                sm.Student.Ranking = 0;
+                sm.Student.AgreementNumber = null;
+            }
+
+            string expected = _serializationHelper.ExerciseJsonSerialize(new List<Exercise>() { excercise });
+            var queryResult = _client.GetAsync($"/Exercise/{idGroup}").Result;
             string actual = queryResult.Content.ReadAsStringAsync().Result;
 
             Assert.AreEqual(expected, actual);

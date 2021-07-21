@@ -1,8 +1,10 @@
+using EJournal_ASP.Net.Tests.Mocks;
 using EJournalDAL.Models;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -28,7 +30,7 @@ namespace EJournal_ASP.Net.Tests
 
             _client = _factory.CreateClient();
             _client.BaseAddress = _baseURL;
-            _client.DefaultRequestHeaders.Clear();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Test");
 
             _serializationHelper = new SerializationHelper();
         }
