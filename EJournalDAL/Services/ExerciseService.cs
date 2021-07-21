@@ -51,7 +51,7 @@ namespace EJournalDAL.Services
             {
                 foreach (var e in exercises)
                 {
-                    if (re.Id == e.IdExercise)
+                    if (re.Id == e.Id)
                     {
                         if (e.IdStudent != null)
                         {

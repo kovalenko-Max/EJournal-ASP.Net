@@ -5,7 +5,7 @@ namespace EJournalDAL.Models
 {
     public class Exercise
     {
-        public int Id;
+        public int Id { get; set; }
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
         public int? IdGroup { get; set; }

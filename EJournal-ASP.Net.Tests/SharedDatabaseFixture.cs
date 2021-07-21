@@ -18,10 +18,13 @@ namespace EJournal_ASP.Net.Tests
 
         public SharedDatabaseFixture()
         {
-            _connectionString = @$"Server=.;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
+            _connectionString = @$"Server=.\SQLEXPRESS;Database={_testDBName};ConnectRetryCount=0;Integrated Security=True";
 
             PublishTestDB();
             CreateContext();
+
+            DataConnection.UserRoles.Value(ur => ur.Username, "TestUser")
+                .Value(ur => ur.Role, "Admin");
         }
 
         internal void PublishTestDB()
@@ -33,7 +36,7 @@ namespace EJournal_ASP.Net.Tests
 
             ProcessStartInfo procStartInfo = new ProcessStartInfo();
             procStartInfo.FileName = projectPath + @"\sqlpackage\sqlpackage.exe";
-            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:. /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
+            procStartInfo.Arguments = @$"/sf:{dacpacFilePath} /a:Publish /p:CreateNewDatabase=true /tsn:.\SQLEXPRESS /tdn:{_testDBName} /v:DbType=production  /v:DbVer=1.0.0 /p:ScriptNewConstraintValidation=False /p:GenerateSmartDefaults=True /of:True /p:BlockOnPossibleDataLoss=False";
 
             using (Process process = new Process())
             {
@@ -149,18 +152,20 @@ namespace EJournal_ASP.Net.Tests
             }
         }
 
-        public void FillExercisesTable(List<Exercise> exercises)
+        public void FillExercisesTable(Exercise exercise)
         {
+            DataTable exerciseModel = new DataTable();
+            exerciseModel.Columns.Add("IdStudent");
+            exerciseModel.Columns.Add("IdExercise");
+            exerciseModel.Columns.Add("Points");
 
-            //foreach (var exercise in exercises)
-            //{
-            //    DataConnection.Exercises
-            //    .Value(e => e.Description, exercise.Description)
-            //    .Value(e => e.IdGroup, exercise.IdGroup)
-            //    .Value(e => e.Deadline, exercise.Deadline)
-            //    .Value(e => e.ExerciseType, exercise.ExerciseType.ToString())
-            //    .InsertAsync();
-            //}
+            foreach (var student in exercise.StudentMarks)
+            {
+                exerciseModel.Rows.Add(new object[] { student.Student.Id, null, student.Point });
+            }
+
+            DataConnection.AddExerciseToStudent(exercise.IdGroup, exercise.Description, exercise.ExerciseType.ToString(),
+                exercise.Deadline, exerciseModel);
         }
     }
 }

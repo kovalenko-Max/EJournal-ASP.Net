@@ -16,11 +16,13 @@ FROM @StudentExerciseVariable
 INSERT INTO [EJournal].[Exercises] (
 	IdGroup,
 	Description,
+	ExerciseType,
 	Deadline
 	)
 VALUES (
 	@IdGroup,
 	@Description,
+	@ExerciseType,
 	@Deadline
 	)
 

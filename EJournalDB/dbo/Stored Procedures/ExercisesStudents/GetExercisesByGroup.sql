@@ -8,8 +8,7 @@ SELECT E.Id,
 	S.Id IdStudent,
 	S.Name,
 	S.Surname,
-	SE.Point,
-	SE.IdExercise
+	SE.Point
 FROM [EJournal].Exercises E
 INNER JOIN [EJournal].[Groups] G ON G.Id = E.IdGroup
 LEFT JOIN [EJournal].StudentsExercises SE ON E.Id = SE.IdExercise

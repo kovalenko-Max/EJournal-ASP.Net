@@ -1,4 +1,5 @@
-﻿using EJournalDAL.Models;
+﻿using EJournal_ASP.Net.Tests.Mocks;
+using EJournalDAL.Models;
 using Microsoft.AspNetCore.TestHost;
 using NUnit.Framework;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using EJournalDAL.Models;
 using System.Collections.Generic;
 
-namespace EJournal_ASP.Net.Tests
+namespace EJournal_ASP.Net.Tests.Mocks
 {
     public static class Mock
     {
@@ -38,7 +38,7 @@ namespace EJournal_ASP.Net.Tests
             {
                 Id = idGroup,
                 Name = $"Name {idGroup}",
-                Course = new Course($"Course {idGroup}")
+                Course = new Course($"Course {idGroup}"),
             };
         }
 
@@ -70,11 +70,17 @@ namespace EJournal_ASP.Net.Tests
 
         public static Exercise GetExerciseMock(int idExercise, Group group, List<Student> students)
         {
-            Exercise exercise = new Exercise(group);
+            Exercise exercise = new Exercise(group)
+            {
+                Id = idExercise,
+                Description = $"Description {idExercise}",
+                Deadline = new System.DateTime(2021, 1, 1),
+                ExerciseType = ExerciseType.HomeWork
+            };
 
             foreach(var student in students)
             {
-                exercise.StudentMarks.Add(new StudentMark(student, 2 * idExercise));
+                exercise.StudentMarks.Add(new StudentMark(student, 4 * idExercise));
             }
 
             return exercise;
